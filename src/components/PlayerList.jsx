@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { getPlayersByGender } from '../reducer';
-import { updateScore } from '../action_creator';
+import * as actions from '../action_creator';
 
 const Player = ({
   onClick,
@@ -35,17 +35,46 @@ const PlayerList = ({
 );
 
 const mapStateToProps = (state, { params }) => {
+  const filter = params.filter || 'all';
   return {
     players: getPlayersByGender(
       state,
-      params.filter || 'all'
-    )
+      filter
+    ),
+    filter
   };
 }
 
-const FilteredPlayerList = withRouter(connect(
+class FilteredPlayerList extends React.Component {
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.filter !== this.props.filter) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const { filter, fetchPlayers } = this.props;
+    fetchPlayers(filter);
+  }
+
+  render() {
+    const {updateScore, ...rest } = this.props;
+    return (
+      <PlayerList 
+        {...rest}  
+        onUpClick={updateScore} 
+      />
+    );
+  }
+}
+
+FilteredPlayerList = withRouter(connect(
   mapStateToProps,
-  { onUpClick: updateScore} // same as mapDispatchToProps
-)(PlayerList));
+  actions
+)(FilteredPlayerList));
 
 export default FilteredPlayerList;

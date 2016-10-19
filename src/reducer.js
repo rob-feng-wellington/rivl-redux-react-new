@@ -23,15 +23,6 @@ const player = (state, action) => {
   }
 };
 
-/*const genderFilter = (state = 'SHOW_ALL', action) => {
-  switch(action.type) {
-    case 'SET_GENDER_FILTER':
-      return action.filter;
-    default:
-      return state;
-  }
-};*/
-
 const byId = (state = {}, action) => {
 	switch(action.type) {
 		case 'ADD_PLAYER':
@@ -84,9 +75,3 @@ export const getPlayersByGender = (state, filter) => {
   }
 };
 //************ Get players based on gender end *************/
-
-
-/*export default (state = {}, action) => ({
-  players: players(state.players, action),
-  genderFilter: genderFilter(state.genderFilter, action)
-});*/

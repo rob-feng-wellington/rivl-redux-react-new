@@ -1,46 +1,22 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import promise from 'redux-promise';
+import createLogger from 'redux-logger';
 import battleApp from './reducer';
 
-const logger = (store) => (next) => {
-  if(!console.group) {
-    return next;
-  }
-
-  return (action) => {
-    console.group(action.type);
-    console.log('%c prev state', 'color: gray', store.getState());
-    console.log('%c action', 'clor: blue', action);
-    const returnValue = next(action);
-    console.log('%c next state', 'color: green', store.getState());
-    console.groupEnd(action.type);
-    return returnValue; 
-  };
-};
-
-const promise = (store) => (next) => (action) => {
-  if (typeof action.then === 'function') {
-    return action.then(next);
-  }
-  return next(action);
-};
-
-const wrapDispatchWithMiddlewares = (store, middlewares) => {
-  middlewares.slice().reverse().forEach(middleware => 
-    store.dispatch = middleware(store)(store.dispatch)
-  );
-}
 
 const configureStore = () => {
 	const store = createStore(battleApp);
   const middlewares = [promise];
 
   if(process.env.NODE_ENV !== 'production') {
-   middlewares.push(logger);
+   middlewares.push(createLogger());
   }
 
-  wrapDispatchWithMiddlewares(store, middlewares);
-
-	return store;
+	return createStore(
+    battleApp,
+    //persistData goes here if any
+    applyMiddleware(...middlewares)
+  );
 };
 
 export default configureStore;

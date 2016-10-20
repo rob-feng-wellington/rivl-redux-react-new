@@ -19,10 +19,10 @@ const battleApp = combineReducers({
 
 export default battleApp;
 
-
-//************ Get players based on gender start *************/
 export const getPlayersByGender = (state, filter) => {
   const ids = fromList.getIds(state.players.listByFilter[filter]);
   return ids.map(id => fromById.getPlayer(state.players.byId, id));
 };
-//************ Get players based on gender end *************/
+
+export const getIsFetching = (state, filter) => 
+  fromList.getIsFetching(state.players.listByFilter[filter]);

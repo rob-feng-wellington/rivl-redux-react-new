@@ -1,7 +1,12 @@
 import { v4 } from 'node-uuid';
 import * as api from './api';
 
-export const receivePlayers = (filter, response) => ({
+export const requestPlayers = (filter) => ({
+  type: 'REQUEST_PLAYERS',
+  filter
+});
+
+const receivePlayers = (filter, response) => ({
   type: 'RECEIVE_PLAYERS',
   filter,
   response

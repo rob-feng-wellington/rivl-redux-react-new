@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { getPlayersByGender } from '../reducer';
+import { getPlayersByGender, getIsFetching } from '../reducer';
 import * as actions from '../action_creator';
 
 const Player = ({
@@ -37,10 +37,8 @@ const PlayerList = ({
 const mapStateToProps = (state, { params }) => {
   const filter = params.filter || 'all';
   return {
-    players: getPlayersByGender(
-      state,
-      filter
-    ),
+    players: getPlayersByGender(state, filter),
+    isFetching: getIsFetching(state, filter),
     filter
   };
 }
@@ -57,15 +55,19 @@ class FilteredPlayerList extends React.Component {
   }
 
   fetchData() {
-    const { filter, fetchPlayers } = this.props;
+    const { filter, requestPlayers, fetchPlayers } = this.props;
+    requestPlayers(filter);
     fetchPlayers(filter);
   }
 
   render() {
-    const {updateScore, ...rest } = this.props;
+    const {updateScore, players, isFetching } = this.props;
+    if( isFetching && !players.length) {
+      return <p>Loading, please wait....</p>;
+    }
     return (
       <PlayerList 
-        {...rest}  
+        players = { players }
         onUpClick={updateScore} 
       />
     );

@@ -42,16 +42,36 @@ const delay = (ms) =>
     new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchPlayers = (filter) =>
-    delay(500).then(() => {
-        switch(filter){
-            case 'all':
-                return fakeDatabase.players;
-            case 'male':
-                return fakeDatabase.players.filter(p => p.gender === 'M');
-            case 'female':
-                return fakeDatabase.players.filter(p => p.gender === 'F');
-            default:
-                throw new Error('Unknown filter: ${filter}');
-        }
-    });
+  delay(500).then(() => {
+      switch(filter){
+          case 'all':
+              return fakeDatabase.players;
+          case 'male':
+              return fakeDatabase.players.filter(p => p.gender === 'M');
+          case 'female':
+              return fakeDatabase.players.filter(p => p.gender === 'F');
+          default:
+              throw new Error('Unknown filter: ${filter}');
+      }
+  });
+
+export const addPlayer = (playerObj) => 
+  delay(500).then(() => {
+    const player = {
+      id: v4(),
+      first_name: playerObj.first_name,
+      last_name: playerObj.last_name,
+      gender: 'M'
+    };
+
+    fakeDatabase.players.push(player);
+    return player;
+  });
+
+export const updateScore = (playerId) =>
+  delay(500).then(() => {
+    const player = fakeDatabase.players.find(p => p.id === playerId);
+    player.score += 1;
+    return player; 
+  });
 

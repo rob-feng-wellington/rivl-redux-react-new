@@ -1,12 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
-import promise from 'redux-promise';
 import createLogger from 'redux-logger';
+import thunk from 'redux-thunk';
 import battleApp from './reducer';
-
 
 const configureStore = () => {
 	const store = createStore(battleApp);
-  const middlewares = [promise];
+  const middlewares = [thunk];
 
   if(process.env.NODE_ENV !== 'production') {
    middlewares.push(createLogger());

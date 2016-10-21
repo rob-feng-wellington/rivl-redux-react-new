@@ -26,3 +26,6 @@ export const getPlayersByGender = (state, filter) => {
 
 export const getIsFetching = (state, filter) => 
   fromList.getIsFetching(state.players.listByFilter[filter]);
+
+export const getErrorMessage = (state, filter) => 
+  fromList.getErrorMessage(state.players.listByFilter[filter]);

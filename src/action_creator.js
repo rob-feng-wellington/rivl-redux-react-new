@@ -1,36 +1,48 @@
-import { v4 } from 'node-uuid';
+import { getIsFetching } from './reducer';
 import * as api from './api';
 
-export const requestPlayers = (filter) => ({
-  type: 'REQUEST_PLAYERS',
-  filter
-});
-
-const receivePlayers = (filter, response) => ({
-  type: 'RECEIVE_PLAYERS',
-  filter,
-  response
-});
-
-export const fetchPlayers = (filter) => 
-  api.fetchPlayers(filter).then(response => 
-    receivePlayers(filter,response)
-  );
-
-export const addPlayer = (player)  => ({
-  type: 'ADD_PLAYER',
-  entry: {
-    first_name: player.first_name,
-    last_name: player.last_name,
-    id: v4(),
-    gender: 'M'
-  }       
-});
-
-export const updateScore = (id) => ({
-  type: 'UPDATE_SCORE',
-  entry: {
-    id: id,
-    margin: 1
+export const fetchPlayers = (filter) => (dispatch, getState) => {
+  if(getIsFetching(getState(), filter)){
+    return Promise.resolve();
   }
-});
+
+  dispatch({
+    type: 'FETCH_PLAYERS_REQUEST',
+    filter
+  });
+
+  return api.fetchPlayers(filter).then(
+    response => {
+      dispatch({
+        type: 'FETCH_PLAYERS_SUCCESS',
+        filter,
+        response
+      });
+    },
+    error => {
+      dispatch({
+        type: 'FETCH_PLAYERS_FAILURE',
+        filter,
+        message: error.message || 'Something went wrong.'
+      });
+    }
+  );
+};
+
+export const addPlayer = (player)  => (dispatch) => {
+  return api.addPlayer(player).then(response => {
+    dispatch({
+      type: 'ADD_PLAYER_SUCCESS',
+      response
+    });
+  }); 
+};
+
+export const updateScore = (id) => (dispatch) => {
+  return api.updateScore(id).then(response => {
+    dispatch({
+      type: 'UPDATE_SCORE_SUCCESS',
+      response
+    });
+  }); 
+};

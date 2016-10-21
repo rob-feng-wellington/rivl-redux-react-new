@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { getPlayersByGender, getIsFetching } from '../reducer';
+import { getPlayersByGender, getIsFetching, getErrorMessage } from '../reducer';
 import * as actions from '../action_creator';
+import FetchError from './FetchError';
 
 const Player = ({
   onClick,
@@ -39,6 +40,7 @@ const mapStateToProps = (state, { params }) => {
   return {
     players: getPlayersByGender(state, filter),
     isFetching: getIsFetching(state, filter),
+    errorMessage: getErrorMessage(state, filter),
     filter
   };
 }
@@ -55,15 +57,22 @@ class FilteredPlayerList extends React.Component {
   }
 
   fetchData() {
-    const { filter, requestPlayers, fetchPlayers } = this.props;
-    requestPlayers(filter);
-    fetchPlayers(filter);
+    const { filter, fetchPlayers } = this.props;
+    fetchPlayers(filter).then(() => console.log('done!'));
   }
 
   render() {
-    const {updateScore, players, isFetching } = this.props;
+    const {updateScore, players, isFetching, errorMessage } = this.props;
     if( isFetching && !players.length) {
       return <p>Loading, please wait....</p>;
+    }
+    if( errorMessage && !players.length) {
+      return (
+        <FetchError
+          message = {errorMessage}
+          onRetry = {() => this.fetchData()}
+        />
+      );
     }
     return (
       <PlayerList 

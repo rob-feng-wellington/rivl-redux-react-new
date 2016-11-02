@@ -5,11 +5,11 @@ const createList = (filter) => {
     switch(action.type) {
       case 'FETCH_PLAYERS_SUCCESS':
         return filter === action.filter ? 
-          action.response.map(player => player.id) :
+          action.response.result :
           state;
       case 'ADD_PLAYER_SUCCESS':
         return filter === action.response.gender || filter === 'all' ?
-          [...state, action.response.id] :
+          [...state, action.response.result] :
           state;
       default:
         return state;

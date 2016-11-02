@@ -1,3 +1,5 @@
+import { normalize } from 'normalizr';
+import * as schema from './schema';
 import { getIsFetching } from './reducer';
 import * as api from './api';
 
@@ -16,7 +18,7 @@ export const fetchPlayers = (filter) => (dispatch, getState) => {
       dispatch({
         type: 'FETCH_PLAYERS_SUCCESS',
         filter,
-        response
+        response: normalize(response, schema.arrayOfPlayers)
       });
     },
     error => {
@@ -33,7 +35,7 @@ export const addPlayer = (player)  => (dispatch) => {
   return api.addPlayer(player).then(response => {
     dispatch({
       type: 'ADD_PLAYER_SUCCESS',
-      response
+      response: normalize(response, schema.player)
     });
   }); 
 };
@@ -42,7 +44,7 @@ export const updateScore = (id) => (dispatch) => {
   return api.updateScore(id).then(response => {
     dispatch({
       type: 'UPDATE_SCORE_SUCCESS',
-      response
+      response: normalize(response, schema.player)
     });
   }); 
 };

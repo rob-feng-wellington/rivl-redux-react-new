@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "resetdb": "node server/resetdb.js"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,8 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
+    "express": "^4.14.0",
     "highcharts": "^v5.0.2",
     "highcharts-more": "^0.1.2",
     "lodash": "^4.16.4",
@@ -32,10 +35,12 @@
     "node-uuid": "^1.4.7",
     "normalizr": "^2.2.1",
     "react-highcharts": "^11.0.0",
+    "react-rethinkdb": "^0.6.0",
     "react-router": "^3.0.0",
     "react-tap-event-plugin": "^1.0.0",
     "redux-logger": "^2.7.0",
     "redux-promise": "^0.5.3",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "rethinkdb-websocket-server": "^0.6.0"
   }
 }

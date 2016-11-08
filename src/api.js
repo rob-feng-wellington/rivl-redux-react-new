@@ -1,59 +1,54 @@
-import { v4 } from 'node-uuid';
+'use strict';
 
-const fakeDatabase = {
-    players: [{
-        id: v4(),
-        first_name: 'Rob',
-        last_name: 'Feng',
-        gender: 'M',
-        score: 1569
-    },
-    {
-        id: v4(),
-        first_name: 'Tedd',
-        last_name: 'Spears',
-        gender: 'M',
-        score: 1499
-    },
-    {
-        id: v4(),
-        first_name: 'Liam',
-        last_name: 'Townson',
-        gender: 'M',
-        score: 1676
-    },
-    {
-        id: v4(),
-        first_name: 'Jo',
-        last_name: 'Alland',
-        gender: 'F',
-        score: 1605
-    },
-    {
-        id: v4(),
-        first_name: 'Emily',
-        last_name: 'Feng',
-        gender: 'F',
-        score: 1448
-    }]
+const RethinkdbWebsocketClient = require('rethinkdb-websocket-client');
+const r = RethinkdbWebsocketClient.rethinkdb;
+const Promise = RethinkdbWebsocketClient.Promise;
+
+const dbName = 'battledb';
+const tb_players_name = 'players';
+let query = '';
+
+const options = {
+  host: 'localhost',       // hostname of the websocket server
+  port: 8015,             // port number of the websocket server
+  path: '/db',               // HTTP path to websocket route
+  secure: false,           // set true to use secure TLS websockets
+  db: dbName,              // default database, passed to rethinkdb.connect
 };
+
+const connPromise = RethinkdbWebsocketClient.connect(options);
+
+const run = (q) => (
+    connPromise.then((c) => (
+      q.run(c)
+    ))
+);
 
 const delay = (ms) =>
     new Promise(resolve => setTimeout(resolve, ms));
 
-export const fetchPlayers = (filter) =>
-  delay(500).then(() => {
-      switch(filter){
-          case 'all':
-              return fakeDatabase.players;
-          case 'male':
-              return fakeDatabase.players.filter(p => p.gender === 'M');
-          case 'female':
-              return fakeDatabase.players.filter(p => p.gender === 'F');
-          default:
-              throw new Error('Unknown filter: ${filter}');
-      }
-  });
+export const fetchPlayers = (filter) => {
+  switch(filter){
+    case 'all':
+      query = r.table('players');
+      break;
+    case 'male':
+      query = r.table('players').filter(r.row('gender').eq("M"));
+      break;
+    case 'female':
+      query = r.table('players').filter(r.row('gender').eq("F"));
+      break;
+    default:
+        throw new Error('Unknown filter: ${filter}');
+  }
+  return run(query)
+    .catch((err) => (err))
+    .then((cursor) => (
+      cursor.toArray().then((results) => (
+        results
+      ))
+    ));
+};
 
 export const addPlayer = (playerObj) => 
   delay(500).then(() => {

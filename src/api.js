@@ -24,49 +24,52 @@ const run = (q) => (
     ))
 );
 
-const delay = (ms) =>
-    new Promise(resolve => setTimeout(resolve, ms));
-
 export const fetchPlayers = (filter) => {
   switch(filter){
     case 'all':
-      query = r.table('players');
+      query = r.table(tb_players_name);
       break;
     case 'male':
-      query = r.table('players').filter(r.row('gender').eq("M"));
+      query = r.table(tb_players_name).filter(r.row('gender').eq("M"));
       break;
     case 'female':
-      query = r.table('players').filter(r.row('gender').eq("F"));
+      query = r.table(tb_players_name).filter(r.row('gender').eq("F"));
       break;
     default:
         throw new Error('Unknown filter: ${filter}');
   }
-  return run(query)
-    .catch((err) => (err))
-    .then((cursor) => (
-      cursor.toArray().then((results) => (
-        results
-      ))
-    ));
+
+  return run(query).catch((err) => err).then((cursor) => (
+    cursor.toArray().then((results) => results)
+  ));
 };
 
-export const addPlayer = (playerObj) => 
-  delay(500).then(() => {
-    const player = {
-      id: v4(),
-      first_name: playerObj.first_name,
-      last_name: playerObj.last_name,
-      gender: 'M'
-    };
+export const addPlayer = (playerObj) => {  
+  const player = {
+    first_name: playerObj.first_name,
+    last_name: playerObj.last_name,
+    gender: playerObj.gender,
+    score: 1500
+  };
 
-    fakeDatabase.players.push(player);
-    return player;
-  });
+  query = r.table(tb_players_name).insert(player);
+  return run(query)
+    .catch((err) => err)
+    .then((result) => {
+      let key = result.generated_keys[0];
+      query = r.table(tb_players_name).get(key);
+      return run(query).catch((err) => err).then((results)=>results);
+    });
+};
 
-export const updateScore = (playerId) =>
-  delay(500).then(() => {
-    const player = fakeDatabase.players.find(p => p.id === playerId);
-    player.score += 1;
-    return player; 
-  });
+export const updateScore = (playerId) => {
+  query = r.table(tb_players_name).get(playerId).update({score: r.row('score').add(10)});
+  return run(query)
+    .catch((err) => err)
+    .then((results) => {
+      query = r.table(tb_players_name).get(playerId);
+      return run(query).catch((err) => err).then((results)=>results);
+    });
+};
+  
 

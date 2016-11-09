@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { getPlayersByGender, getIsFetching, getErrorMessage } from '../reducer';
 import * as actions from '../action_creator';
 import FetchError from './FetchError';
+import GenderFilter from './GenderFilter';
 import sortBy from 'lodash/sortBy';
 import reverse from 'lodash/reverse';
 import clone from 'lodash/clone';
@@ -102,7 +103,7 @@ const scoreboard_config = {
     }]
 };
 
-const Player = ({
+/*const Player = ({
   onClick,
   first_name,
   last_name,
@@ -130,7 +131,7 @@ const PlayerList = ({
       />
     )}
   </ul>
-);
+);*/
 
 const mapStateToProps = (state, { params }) => {
   const filter = params.filter || 'all';
@@ -196,11 +197,12 @@ class FilteredPlayerList extends React.Component {
     }
     return (
       <div className="chartWrapper">
+        <GenderFilter />
         <ReactHighcharts config={scoreboard_config} callback={this.fetchDone} ref="chart"></ReactHighcharts>
-        <PlayerList 
+{/*        <PlayerList 
           players = { players }
           onUpClick={updateScore} 
-        />
+        />*/}
       </div>
     );
   }

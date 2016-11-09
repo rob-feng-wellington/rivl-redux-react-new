@@ -1,4 +1,5 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
 
 const FilterLink = ({ filter, children }) => (
@@ -13,16 +14,16 @@ const FilterLink = ({ filter, children }) => (
   </Link>
 );
 
-const Footer = () => (
+const GenderFilter = () => (
   <p>
-    Show:
+    Gender:
     {'   '}
     <FilterLink filter='all'>All</FilterLink>
     {'   '}
-    <FilterLink filter='male'>MALE</FilterLink>
+    <FilterLink filter='male'>Male</FilterLink>
     {'   '}
-    <FilterLink filter='female'>FEMALE</FilterLink>
+    <FilterLink filter='female'>Female</FilterLink>
   </p>
 );
 
-export default Footer;
+export default GenderFilter;

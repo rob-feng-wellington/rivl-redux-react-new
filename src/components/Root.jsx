@@ -6,13 +6,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import FilteredPlayerList from './PlayerList';
 import AddPlayer from './AddPlayer';
-import Footer from './Footer';
+import Battle from './Battle';
 
+require('../sass/common.scss');
 
 const App = () => (
   <div>
     <FilteredPlayerList />
-    <Footer />
   </div>
 );
 
@@ -22,10 +22,17 @@ const Add = () => (
   </MuiThemeProvider>
 );
 
+const BattleField = () => (
+  <MuiThemeProvider>
+    <Battle />
+  </MuiThemeProvider>  
+);
+
 const Root = ({ store }) => (
   <Provider store ={store}>
     <Router history={hashHistory}>
       <Route path='player/add' component={Add} />
+      <Route path='battle' component={BattleField} />
       <Route path='/(:filter)' component={App} />
     </Router>
   </Provider>

@@ -1,0 +1,38 @@
+$fa_path: "../../node_modules/font-awesome/scss";
+$fa-font-path:"../../node_modules/font-awesome/fonts";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+.wrapper {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.row {  
+  width: 100%;
+  padding: 20px 0;
+  .col {
+    float: left;
+    text-align: center;
+    min-height: 1px;
+    &.main {
+      width: 40%;
+    }
+    &.middle {
+      width: 20%;
+    }
+  }
+  .col-single {
+    text-align : center;
+    width: 100%
+  }
+}
+
+.divider-10 {
+    width:10px;
+    height:auto;
+    display:inline-block;
+}
+
+.top-buffer-10 {
+  padding-top: 10px;
+}

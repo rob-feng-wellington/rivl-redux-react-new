@@ -69,64 +69,12 @@ class AddPlayerClass extends React.Component {
               <MenuItem value='F' primaryText="Female" />
             </SelectField>
             <br />
-            <RaisedButton label="Submit" onClick={this.addPlayerhandler} />  
+            <RaisedButton primary={true} label="Submit" onClick={this.addPlayerhandler} />  
         </form>
       </div>
     );
   }
 };
-
-
-/*let AddPlayer = ({ dispatch }) => {
-  let input_first_name, input_last_name, gender, player = {};
-  let addPlayerhandler = (e) => {
-    debugger;
-  };
-  let genderChangeHandler = (event, index, value) => {
-    gender = value;
-    debugger;
-  };
-  return (
-    <div>
-    <form>
-        <TextField
-          hintText=""
-          floatingLabelText="Your first name"
-          ref = { node => {
-            input_first_name = node;
-          }}                                               
-        />
-        <br />
-        <TextField
-          hintText=""
-          floatingLabelText="Your last name"
-          ref = { node => {
-            input_last_name = node;
-          }}                                               
-        />
-        <br />
-        <SelectField
-          floatingLabelText="Gender"
-          value={gender}
-          onChange={genderChangeHandler}
-        >
-          <MenuItem value='M' primaryText="Male" />
-          <MenuItem value='F' primaryText="Female" />
-        </SelectField>  
-    </form>
-      <button onClick={() => {
-        player.first_name = input_first_name.value;
-        player.last_name = input_last_name.value;
-        dispatch(addPlayer(player));
-        input_first_name.value = '';
-        input_last_name.value = '';
-      }}>
-        Add player
-      </button>
-      <RaisedButton label="Default" onClick={addPlayerhandler} />
-    </div>
-  );
-};*/
 
 const AddPlayer = connect(
   null, //no props

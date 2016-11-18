@@ -50,3 +50,9 @@ export const updateScore = (id) => (dispatch) => {
     });
   }); 
 };
+
+export const initialBattle = () => (dispatch, getState) => {
+  dispatch({
+    type: 'INITIAL_BATTLE',
+  });
+}

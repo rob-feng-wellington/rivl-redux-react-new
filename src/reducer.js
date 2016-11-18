@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import byId, * as fromById from './reducers/byId';
 import createList, * as fromList from './reducers/createList';
+import createBattle, * as fromBattle from './reducers/createBattle';
 
 const listByFilter = combineReducers({
   all: createList('all'),
@@ -14,7 +15,8 @@ const players = combineReducers({
 });
 
 const battleApp = combineReducers({
-  players   
+  players,
+  battle: createBattle()
 });
 
 export default battleApp;
@@ -29,3 +31,6 @@ export const getIsFetching = (state, filter) =>
 
 export const getErrorMessage = (state, filter) => 
   fromList.getErrorMessage(state.players.listByFilter[filter]);
+
+export const getBattlePair = (state) =>
+  fromBattle.getBattelPair(state.battle);

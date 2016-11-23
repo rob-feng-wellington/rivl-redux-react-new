@@ -1,0 +1,24 @@
+.avatarStyle {
+  margin: 12px;
+}
+
+.win {
+  color: red;
+}
+
+.loss {
+  color: green;
+}
+
+.battle-result-area {
+  ul {
+    list-style-type: none;
+    li {
+      width: 100%;
+      display: inline-block;
+      .row {
+        padding: 5px 0;
+      }
+    }
+  }
+}

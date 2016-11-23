@@ -51,8 +51,28 @@ export const updateScore = (id) => (dispatch) => {
   }); 
 };
 
-export const initialBattle = () => (dispatch, getState) => {
+export const initialBattle = () => (dispatch) => {
   dispatch({
     type: 'INITIAL_BATTLE',
   });
+}
+
+export const playerSelect = (whichPlayer, id) => (dispatch) => {
+  let data = {};
+  data[whichPlayer] = id;
+  dispatch({
+    type: 'BATTLE_PLAYER_SELECT',
+    data: data
+  });
+}
+
+export const addResults = (whichPlayerWin) => (dispatch) => {
+  dispatch({
+    type: 'ADD_BATTLE_RESULT',
+    data: whichPlayerWin
+  });
+}
+
+export const removeResult = (index) => (dispatch) => {
+  debugger;
 }

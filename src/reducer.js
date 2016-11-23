@@ -34,3 +34,9 @@ export const getErrorMessage = (state, filter) =>
 
 export const getBattlePair = (state) =>
   fromBattle.getBattelPair(state.battle);
+
+export const getIsSubmitted = (state) =>
+  fromBattle.getIsSubmitted(state.battle);
+
+export const getBattleResults = (state) =>
+  fromBattle.getBattleResults(state.battle);

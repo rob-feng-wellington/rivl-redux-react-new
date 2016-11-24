@@ -73,6 +73,29 @@ export const addResults = (whichPlayerWin) => (dispatch) => {
   });
 }
 
-export const removeResult = (index) => (dispatch) => {
-  debugger;
+export const removeResult = (whichResult) => (dispatch) => {
+  dispatch({
+    type: 'REMOVE_BATTLE_RESULT',
+    data: whichResult
+  });
+}
+
+export const calculateScore = (playerA, playerB, results) => (dispatch) => {
+  dispatch({
+    type: 'CALCULATE_BATTLE_SCORE',
+    data: {
+      playerA: playerA,
+      playerB: playerB,
+      results: results
+    }
+  });
+}
+
+export const submitScore = (playerA, playerB) => (dispatch) => {
+  return Promise.all([
+    api.editPlayerScore(playerA),
+    api.editPlayerScore(playerB)
+  ]).then(() => {
+    Promise.resolve();
+  });
 }

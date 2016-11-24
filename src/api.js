@@ -71,5 +71,15 @@ export const updateScore = (playerId) => {
       return run(query).catch((err) => err).then((results)=>results);
     });
 };
+
+export const editPlayerScore = (playerObj) => {
+  query = r.table(tb_players_name).get(playerObj.id).update({score: playerObj.score});
+  return run(query)
+    .catch((err) => err)
+    .then((results) => {
+      query = r.table(tb_players_name).get(playerObj.id);
+      return run(query).catch((err) => err).then((results)=>results);
+    });
+}
   
 

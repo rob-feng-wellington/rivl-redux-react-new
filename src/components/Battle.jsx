@@ -4,6 +4,9 @@ import { withRouter } from 'react-router';
 import * as actions from '../action_creator';
 import { getBattlePair, getPlayersByGender, getBattleResults, getBattleNewScores } from '../reducer';
 
+//components
+import PlayerArea from './PlayerArea';
+
 //material UI
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
@@ -137,21 +140,8 @@ class Battle extends React.Component {
 
     return (
       <div className="wrapper">
-        <div className="players-area row">
-          <div data-name="playerA" className="player col main">
-            <Avatar
-              size={avatarSize}
-              className="avatarStyle"
-            >{this.showNameInitial(playerALabel)}</Avatar>
-          </div>
-          <div className="col middle"></div>
-          <div data-name="playerB" className="player col main">
-            <Avatar
-              size={avatarSize}
-              className="avatarStyle"
-            >{this.showNameInitial(playerBLabel)}</Avatar>
-          </div>
-        </div>
+        <PlayerArea pair={this.props.pair} players={this.props.players} />
+        
         <div className="players-select row">
           <div className="col main">
             <SelectField

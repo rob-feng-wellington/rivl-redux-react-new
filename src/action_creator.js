@@ -96,6 +96,8 @@ export const submitScore = (playerA, playerB) => (dispatch) => {
     api.editPlayerScore(playerA),
     api.editPlayerScore(playerB)
   ]).then(() => {
-    Promise.resolve();
+    dispatch({
+      type: 'SUBMIT_SCORE_SUCCESS'
+    });
   });
 }

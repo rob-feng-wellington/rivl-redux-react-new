@@ -103,36 +103,6 @@ const scoreboard_config = {
     }]
 };
 
-/*const Player = ({
-  onClick,
-  first_name,
-  last_name,
-  gender,
-  score
-}) => (
-  <li> 
-    {first_name} {last_name} {gender} {score}
-    <button onClick={onClick}>
-      1up
-    </button>
-  </li>
-);
-
-const PlayerList = ({
-  players,
-  onUpClick
-}) => (
-  <ul>
-    {players.map(player => 
-      <Player
-        key={player.id}
-        {...player}
-        onClick={() => onUpClick(player.id)}
-      />
-    )}
-  </ul>
-);*/
-
 const mapStateToProps = (state, { params }) => {
   const filter = params.filter || 'all';
   return {
@@ -199,10 +169,6 @@ class FilteredPlayerList extends React.Component {
       <div className="chartWrapper">
         <GenderFilter />
         <ReactHighcharts config={scoreboard_config} callback={this.fetchDone} ref="chart"></ReactHighcharts>
-{/*        <PlayerList 
-          players = { players }
-          onUpClick={updateScore} 
-        />*/}
       </div>
     );
   }

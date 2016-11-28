@@ -6,13 +6,9 @@ import { getBattlePair, getPlayersByGender, getBattleResults, getBattleNewScores
 
 //components
 import PlayerArea from './PlayerArea';
+import PlayerSelectArea from './PlayerSelectArea';
 
 //material UI
-import Avatar from 'material-ui/Avatar';
-import FontIcon from 'material-ui/FontIcon';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import cx from 'classnames';
@@ -75,7 +71,6 @@ const ResultRow = ({
 class Battle extends React.Component {
   constructor(props) {
     super(props);
-    this.handlePlayerSelect = this.handlePlayerSelect.bind(this);
   }
 
   componentDidMount() {
@@ -86,17 +81,6 @@ class Battle extends React.Component {
 
   getPlayerById(id) {
     return id ? find(this.props.players, ['id', id]) : null;
-  }
-
-  showNameInitial(whichPlayer) {
-    const id = this.props.pair[whichPlayer];
-    const player = this.getPlayerById(id);
-    return player ? player.first_name.charAt(0).toUpperCase() : '?' ;
-  }
-
-  handlePlayerSelect(whichPlayer, event, index, value) {
-    const { playerSelect } = this.props;
-    playerSelect(whichPlayer, value);
   }
 
   isReady() {
@@ -126,45 +110,11 @@ class Battle extends React.Component {
     const playerList = [];
     const { removeResult } = this.props;
 
-    this.props.players.forEach(function(player){
-      const avatarLetter = player.first_name.charAt(0).toUpperCase();
-      playerList.push(
-        <MenuItem 
-          value={player.id}
-          rightAvatar={<Avatar size={20}>{avatarLetter}</Avatar>}
-          key={player.id} 
-          primaryText={player.first_name + " " + player.last_name }
-        />
-      );
-    });
-
     return (
       <div className="wrapper">
         <PlayerArea pair={this.props.pair} players={this.props.players} />
+        <PlayerSelectArea pair={this.props.pair} players={this.props.players} />
         
-        <div className="players-select row">
-          <div className="col main">
-            <SelectField
-              value={this.props.pair.playerA}
-              onChange={(event, index, value) => this.handlePlayerSelect(playerALabel, event, index, value)}
-              maxHeight={selectMaxHeight}
-              hintText={selectHint}
-            >
-              {playerList}
-            </SelectField>
-          </div>
-          <div className="col middle"></div>
-          <div className="col main">
-            <SelectField
-              value={this.props.pair.playerB}
-              onChange={(event, index, value) => this.handlePlayerSelect(playerBLabel, event, index, value)}
-              maxHeight={selectMaxHeight}
-              hintText={selectHint}
-            >
-              {playerList}
-            </SelectField>
-          </div>
-        </div>
         <div className="battle-result-area row">
           <ResultList 
             results = { this.props.results }

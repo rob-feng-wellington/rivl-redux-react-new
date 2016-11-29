@@ -7,6 +7,8 @@ const createBattle = () => {
     switch (action.type) {
       case 'BATTLE_PLAYER_SELECT':
         return Object.assign({}, state, action.data);
+      case 'REINITIAL_BATTLE':
+        return {playerA: null, playerB: null};
       default:
         return state;
     }
@@ -17,7 +19,9 @@ const createBattle = () => {
       case 'ADD_BATTLE_RESULT':
         return [...state, action.data];
       case 'REMOVE_BATTLE_RESULT':
-        return [ ...state.slice(0, action.data), ...state.slice(action.data + 1) ]
+        return [ ...state.slice(0, action.data), ...state.slice(action.data + 1) ];
+      case 'REINITIAL_BATTLE':
+        return [];
       default:
         return state;
     }
@@ -29,21 +33,25 @@ const createBattle = () => {
         let elo = new Elo();
         let newPlayerAScore, newPlayerBScore;
         let playerAObj = action.data.playerA;
+        let playerAScore = playerAObj.score;
         let playerBObj = action.data.playerB;
+        let playerBScore = playerBObj.score;
         action.data.results.forEach(function(result){     
           if(result === 'playerA') {
             //playerA won
-            newPlayerAScore = elo.ifWins(playerAObj.score, playerBObj.score);
-            newPlayerBScore = elo.ifLoses(playerBObj.score, playerAObj.score);
+            newPlayerAScore = elo.ifWins(playerAScore, playerBScore);
+            newPlayerBScore = elo.ifLoses(playerBScore, playerAScore);
           } else {
             //playerB won
-            newPlayerAScore = elo.ifLoses(playerAObj.score, playerBObj.score);
-            newPlayerBScore = elo.ifWins(playerBObj.score, playerAObj.score);
+            newPlayerAScore = elo.ifLoses(playerAScore, playerBScore);
+            newPlayerBScore = elo.ifWins(playerBScore, playerAScore);
           }
-          playerAObj.score = newPlayerAScore;
-          playerBObj.score = newPlayerBScore;
+          playerAScore = newPlayerAScore;
+          playerBScore = newPlayerBScore;
         });
         return {playerA: newPlayerAScore, playerB: newPlayerBScore};
+      case 'REINITIAL_BATTLE':
+        return {playerA: null, playerB: null}
       default:
         return state;
     }

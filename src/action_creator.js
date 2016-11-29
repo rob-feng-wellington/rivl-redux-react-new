@@ -101,3 +101,9 @@ export const submitScore = (playerA, playerB) => (dispatch) => {
     });
   });
 }
+
+export const reInitialBattle = () => (dispatch) => {
+  dispatch({
+    type: 'REINITIAL_BATTLE',
+  });
+}

@@ -7,12 +7,11 @@ import { getBattlePair, getPlayersByGender, getBattleResults, getBattleNewScores
 //components
 import PlayerArea from './PlayerArea';
 import PlayerSelectArea from './PlayerSelectArea';
+import BattleResultArea from './BattleResultArea';
+import BattleArea from './BattleArea';
+import BattleSummary from './BattleSummary';
 
-//material UI
-import RaisedButton from 'material-ui/RaisedButton';
-
-import cx from 'classnames';
-import cloneDeep from 'lodash/cloneDeep';
+//helpers
 import find from 'lodash/find';
 
 require('../sass/components/Battle.scss');
@@ -30,47 +29,12 @@ const mapStateToProps = (state ) => {
   };
 }
 
-const ResultList = ({
-  results,
-  onRemoveClick
-}) => (
-  <ul>
-    {results.map((result,index) => 
-      <ResultRow
-        key={index}
-        winner={result}
-        onClick={() => onRemoveClick(index)}
-      />
-    )}
-  </ul>
-);
-
-const ResultRow = ({
-  onClick,
-  winner
-}) => {
-  let playerAWinLoss = 'Loss';
-  let playerBWinLoss = 'Loss';
-  if(winner === playerALabel) {
-    playerAWinLoss = 'Win';
-  } else {
-    playerBWinLoss = 'Win';
-  }
-
-  return (
-    <li>
-      <div className="row">
-        <div className="col main">{playerAWinLoss}</div>
-        <div className="col middle"><RaisedButton primary={true} label="remove" onTouchTap={onClick}/></div>
-        <div className="col main">{playerBWinLoss}</div>
-      </div>
-    </li>
-  );
-}
-
 class Battle extends React.Component {
   constructor(props) {
     super(props);
+    this.addResult = this.addResult.bind(this);
+    this.submitResults = this.submitResults.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   componentDidMount() {
@@ -84,7 +48,43 @@ class Battle extends React.Component {
   }
 
   isReady() {
-    return this.props.pair[playerALabel] && this.props.pair[playerBLabel];
+    return !!(this.props.pair[playerALabel] && this.props.pair[playerBLabel]);
+  }
+
+  hasResults() {
+    return this.props.results.length > 0;
+  }
+
+  hasSubmitted() {
+    return this.props.newScores.playerA !== null;
+  }
+
+  getSummary() {
+    if(this.hasSubmitted()) {
+      const playerAScoreAfter = this.props.newScores.playerA;
+      const playerBScoreAfter = this.props.newScores.playerB;
+
+      const playerAObj = this.getPlayerById(this.props.pair[playerALabel]);
+      const playerBObj = this.getPlayerById(this.props.pair[playerBLabel]);
+      const playerAScoreBefore = playerAObj.score;
+      const playerBScoreBefore = playerBObj.score;
+
+      return {
+        playerA: playerAScoreAfter - playerAScoreBefore,
+        playerB: playerBScoreAfter - playerBScoreBefore
+      }
+    }
+
+    return {
+      playerA: null,
+      playerB: null
+    }
+  }
+
+  goBack() {
+    const { reInitialBattle, fetchPlayers } = this.props;
+    fetchPlayers('all');
+    reInitialBattle();
   }
 
   addResult(whichPlayerWin) {
@@ -104,48 +104,23 @@ class Battle extends React.Component {
   }
 
   render() {
-    const avatarSize = 200;
-    const selectMaxHeight = 200;
-    const selectHint = 'Please choose one';
-    const playerList = [];
-    const { removeResult } = this.props;
+    const isReady = this.isReady();
+    const hasResults = this.hasResults();
+    const hasSubmitted = this.hasSubmitted();
+    const summary = this.getSummary();
 
     return (
       <div className="wrapper">
         <PlayerArea pair={this.props.pair} players={this.props.players} />
         <PlayerSelectArea pair={this.props.pair} players={this.props.players} />
-        
-        <div className="battle-result-area row">
-          <ResultList 
-            results = { this.props.results }
-            onRemoveClick={removeResult} 
-          />
-          <div className="col-single">
-            <RaisedButton 
-              onTouchTap={() => this.submitResults()} 
-              label="Submit" 
-              primary={true}
-              className='submitButton'
-            />
-          </div>
-        </div>
-        <div className="battle-area row">
-          <div className="col main">
-            <RaisedButton 
-              onTouchTap={() => this.addResult(playerALabel)} 
-              label="Win" 
-              primary={true} 
-              disabled={!this.isReady()} />
-          </div>
-          <div className="col middle"></div>
-          <div className="col main">
-            <RaisedButton 
-              onTouchTap={() => this.addResult(playerBLabel)} 
-              label="Win" 
-              primary={true}
-              disabled={!this.isReady()} />
-          </div>
-        </div>
+        { hasSubmitted ? 
+          <BattleSummary summary={summary} onGoBack={this.goBack} /> 
+          :   
+          [
+            <BattleArea isReady={isReady} onAddResult={this.addResult} key={1} />,
+            <BattleResultArea results={this.props.results} onSubmit={this.submitResults} hasResults={hasResults} key={2} />,
+          ] 
+        }
       </div>
     );
   }

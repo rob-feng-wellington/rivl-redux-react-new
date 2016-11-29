@@ -11,9 +11,9 @@ import Battle from './Battle';
 require('../sass/common.scss');
 
 const App = () => (
-  <div>
+  <MuiThemeProvider>
     <FilteredPlayerList />
-  </div>
+  </MuiThemeProvider>
 );
 
 const Add = () => (

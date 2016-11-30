@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, hashHistory } from 'react-router';
 import { getPlayersByGender, getIsFetching, getErrorMessage } from '../reducer';
 import * as actions from '../action_creator';
 
@@ -10,13 +10,16 @@ import GenderFilter from './GenderFilter';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
+import AutoComplete from 'material-ui/AutoComplete';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import sortBy from 'lodash/sortBy';
 import reverse from 'lodash/reverse';
-import clone from 'lodash/clone';
+import forOwn from 'lodash/forOwn';
 
-const mapStateToProps = (state, { params }) => {
-  const filter = params.filter || 'all';
+const mapStateToProps = (state, {location: { query } }) => {
+  const filter = query && query.gender ? query.gender : 'all' ;
   return {
     players: getPlayersByGender(state, filter),
     isFetching: getIsFetching(state, filter),
@@ -29,17 +32,29 @@ class FilteredPlayerList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      fixedHeader: true,
-      fixedFooter: true,
-      stripedRows: true,
-      showRowHover: false,
-      selectable: false,
-      multiSelectable: false,
-      enableSelectAll: false,
-      deselectOnClickaway: false,
-      showCheckboxes: false,
-      height: '400px',
+      table: {
+        fixedHeader: true,
+        fixedFooter: true,
+        stripedRows: false,
+        showRowHover: false,
+        selectable: false,
+        multiSelectable: false,
+        enableSelectAll: false,
+        deselectOnClickaway: false,
+        showCheckboxes: false,
+        height: '600px',
+      },
+      filter: {
+        gender: this.props.filter,
+      },
+      subFilter: {
+        name: '',
+        id: ''
+      }
     };
+
+    this.handleGenderChange = this.handleGenderChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
   }
 
   componentDidMount() {
@@ -59,8 +74,44 @@ class FilteredPlayerList extends React.Component {
     });
   }
 
+  getSortedPlayers() {
+    return reverse(sortBy(this.props.players, 'score'));
+  }
+
+  getAllNames() {
+    const allNames = this.getSortedPlayers().map( (player) => (
+      {text: player.first_name + ' ' + player.last_name, value: player.id }
+    ));
+    return allNames;
+  }
+
+  updateFilterUrl() {
+    let query = '?';
+    forOwn(this.state.filter, (value, key) => {
+      query += value !== '' ? '&' + key + '=' + value : ''
+    });
+    hashHistory.push('/' + query);
+  }
+
+  handleGenderChange(evt) {
+    let newFilter = this.state.filter;
+    newFilter.gender = evt.target.innerText.toLowerCase();
+    this.setState({filter: newFilter});
+    this.updateFilterUrl();
+  }
+
+  handleNameChange(val) {
+    let newSubFilter = this.state.subFilter;
+    newSubFilter.name = val.text;
+    newSubFilter.id = val.value;
+    this.setState({subFilter: newSubFilter});
+  }
+
   render() {
     const {updateScore, players, isFetching, errorMessage } = this.props;
+
+    const sortedPlayers = this.getSortedPlayers();
+
     if( isFetching && !players.length) {
       return <p>Loading, please wait....</p>;
     }
@@ -74,48 +125,75 @@ class FilteredPlayerList extends React.Component {
     }
     return (
       <div className="wrapper">
-        <GenderFilter />
         <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
+          height={this.state.table.height}
+          fixedHeader={this.state.table.fixedHeader}
+          fixedFooter={this.state.table.fixedFooter}
+          selectable={this.state.table.selectable}
+          multiSelectable={this.state.table.multiSelectable}
         >
           <TableHeader
-            displaySelectAll={this.state.showCheckboxes}
-            adjustForCheckbox={this.state.showCheckboxes}
-            enableSelectAll={this.state.enableSelectAll}
+            displaySelectAll={this.state.table.showCheckboxes}
+            adjustForCheckbox={this.state.table.showCheckboxes}
+            enableSelectAll={this.state.table.enableSelectAll}
           >
             <TableRow>
-              <TableHeaderColumn colSpan="3" tooltip="Score board" style={{textAlign: 'center'}}>
+              <TableHeaderColumn colSpan="4" tooltip="Score board" style={{textAlign: 'center'}}>
                 Score board
               </TableHeaderColumn>
             </TableRow>
             <TableRow>
-              <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Gender">Gender</TableHeaderColumn>
+              <TableHeaderColumn>Rank</TableHeaderColumn>
+              <TableHeaderColumn>
+                <AutoComplete
+                  fullWidth={true}
+                  floatingLabelText="Name"
+                  filter={AutoComplete.caseInsensitiveFilter}
+                  onNewRequest={this.handleNameChange}
+                  dataSource={this.getAllNames()}
+                  searchText={this.state.subFilter.name}
+                  className="normal-font"
+                />
+              </TableHeaderColumn>
+              <TableHeaderColumn>
+                <SelectField
+                  floatingLabelText="Gender"
+                  value={this.state.filter.gender}
+                  onChange={this.handleGenderChange}
+                  className="normal-font"
+                  fullWidth={true}
+                >
+                  <MenuItem value='all' primaryText="All" />
+                  <MenuItem value='male' primaryText="Male" />
+                  <MenuItem value='female' primaryText="Female" />
+                </SelectField>
+              </TableHeaderColumn>
               <TableHeaderColumn tooltip="The Score">Score</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
-            displayRowCheckbox={this.state.showCheckboxes}
-            deselectOnClickaway={this.state.deselectOnClickaway}
-            showRowHover={this.state.showRowHover}
-            stripedRows={this.state.stripedRows}
+            displayRowCheckbox={this.state.table.showCheckboxes}
+            deselectOnClickaway={this.state.table.deselectOnClickaway}
+            showRowHover={this.state.table.showRowHover}
+            stripedRows={this.state.table.stripedRows}
           >
-            {this.props.players.map( (player, index) => (
-              <TableRow key={index}>
-                <TableRowColumn>{player.first_name + ' ' + player.last_name}</TableRowColumn>
-                <TableRowColumn>{player.gender}</TableRowColumn>
-                <TableRowColumn>{player.score}</TableRowColumn>
-              </TableRow>
-            ))}
+            {sortedPlayers.map( (player, index) => {
+              const className = player.id === this.state.subFilter.id ? 'active' : 'inactive';
+              return (
+                <TableRow className={className} key={index}>
+                  <TableRowColumn>{index + 1}</TableRowColumn>
+                  <TableRowColumn>{player.first_name + ' ' + player.last_name}</TableRowColumn>
+                  <TableRowColumn>{player.gender}</TableRowColumn>
+                  <TableRowColumn>{player.score}</TableRowColumn>
+                </TableRow>
+              );
+            })}
           </TableBody>
           <TableFooter
-            adjustForCheckbox={this.state.showCheckboxes}
+            adjustForCheckbox={this.state.table.showCheckboxes}
           >
             <TableRow>
+              <TableRowColumn>Rank</TableRowColumn>
               <TableRowColumn>Name</TableRowColumn>
               <TableRowColumn>Gender</TableRowColumn>
               <TableRowColumn>Score</TableRowColumn>

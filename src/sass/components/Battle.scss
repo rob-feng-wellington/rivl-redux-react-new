@@ -22,6 +22,14 @@
     }
   }
   .submitButton {
-    width: 50%;
+    width: 40%;
   }
+}
+
+.normal-font {
+  font-size: 13px !important;
+}
+
+tr.active {
+  background-color: orange;
 }

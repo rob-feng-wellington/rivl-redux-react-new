@@ -33,7 +33,7 @@ const Root = ({ store }) => (
     <Router history={hashHistory}>
       <Route path='player/add' component={Add} />
       <Route path='battle' component={BattleField} />
-      <Route path='/(:filter)' component={App} />
+      <Route path='/(/:name)(/:gender)(/:minScore)(/:maxScore)' component={App} />
     </Router>
   </Provider>
 );

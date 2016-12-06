@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 import * as schema from './schema';
-import { getIsFetching } from './reducer';
+import { getIsFetching, getBattleNewScores } from './reducer';
 import * as api from './api';
 import { hashHistory } from 'react-router'
 
@@ -33,6 +33,10 @@ export const fetchPlayers = (filter) => (dispatch, getState) => {
 };
 
 export const addPlayer = (player)  => (dispatch) => {
+  dispatch({
+    type: 'ADD_PLAYER_REQUEST'
+  });
+
   return api.addPlayer(player).then(response => {
     dispatch({
       type: 'ADD_PLAYER_SUCCESS',
@@ -91,10 +95,20 @@ export const calculateScore = (playerA, playerB, results) => (dispatch) => {
   });
 }
 
-export const submitScore = (playerA, playerB) => (dispatch) => {
+export const submitScore = (playerA, playerB, results) => (dispatch, getState) => {
+  dispatch({
+    type: 'CALCULATE_BATTLE_SCORE',
+    data: {
+      playerA: playerA,
+      playerB: playerB,
+      results: results
+    }
+  });
+  const newScores = getBattleNewScores(getState());
+  debugger;
   return Promise.all([
-    api.editPlayerScore(playerA),
-    api.editPlayerScore(playerB)
+    api.editPlayerScore(playerA.id, newScores.playerA),
+    api.editPlayerScore(playerB.id, newScores.playerB)
   ]).then(() => {
     dispatch({
       type: 'SUBMIT_SCORE_SUCCESS'
@@ -106,4 +120,19 @@ export const reInitialBattle = () => (dispatch) => {
   dispatch({
     type: 'REINITIAL_BATTLE',
   });
+}
+
+export const loadAvatars = () => (dispatch) => {
+  dispatch({
+    type: 'FETCH_AVATARS_REQUEST'
+  });
+
+  return api.fetchAvatars().then(
+    response => {
+      dispatch({
+        type: 'FETCH_AVATARS_SUCCESS',
+        response: normalize(response, schema.arrayOfAvatars)
+      });
+    }
+  );
 }

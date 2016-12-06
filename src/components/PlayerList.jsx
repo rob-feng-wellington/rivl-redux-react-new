@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, hashHistory } from 'react-router';
+import { withRouter, hashHistory, Link } from 'react-router';
 import { getPlayersByGender, getIsFetching, getErrorMessage } from '../reducer';
 import * as actions from '../action_creator';
 
 import FetchError from './FetchError';
-import GenderFilter from './GenderFilter';
+
 
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
@@ -18,8 +18,8 @@ import sortBy from 'lodash/sortBy';
 import reverse from 'lodash/reverse';
 import forOwn from 'lodash/forOwn';
 
-const mapStateToProps = (state, {location: { query } }) => {
-  const filter = query && query.gender ? query.gender : 'all' ;
+const mapStateToProps = (state, { params }) => {
+  const filter = params && params.gender ? params.gender : 'all' ;
   return {
     players: getPlayersByGender(state, filter),
     isFetching: getIsFetching(state, filter),
@@ -86,11 +86,7 @@ class FilteredPlayerList extends React.Component {
   }
 
   updateFilterUrl() {
-    let query = '?';
-    forOwn(this.state.filter, (value, key) => {
-      query += value !== '' ? '&' + key + '=' + value : ''
-    });
-    hashHistory.push('/' + query);
+    hashHistory.push('/' + this.state.filter.gender);
   }
 
   handleGenderChange(evt) {
@@ -182,7 +178,13 @@ class FilteredPlayerList extends React.Component {
               return (
                 <TableRow className={className} key={index}>
                   <TableRowColumn>{index + 1}</TableRowColumn>
-                  <TableRowColumn>{player.first_name + ' ' + player.last_name}</TableRowColumn>
+                  <TableRowColumn>
+                     <Link
+                      to={ {pathname: '/player/' + player.id  }}
+                    >
+                      {player.first_name + ' ' + player.last_name}
+                    </Link>
+                  </TableRowColumn>
                   <TableRowColumn>{player.gender}</TableRowColumn>
                   <TableRowColumn>{player.score}</TableRowColumn>
                 </TableRow>

@@ -13,6 +13,7 @@ import BattleSummary from './BattleSummary';
 
 //helpers
 import find from 'lodash/find';
+import clone from 'lodash/clone';
 
 require('../sass/components/Battle.scss');
 
@@ -98,9 +99,8 @@ class Battle extends React.Component {
     const playerAObject = this.getPlayerById(this.props.pair[playerALabel]);
     const playerBObject = this.getPlayerById(this.props.pair[playerBLabel]);
 
-    calculateScore(playerAObject, playerBObject, results);
-    //once calculate is done => submit
-    submitScore(playerAObject, playerBObject);
+    //calculateScore(playerAObject, playerBObject, results);
+    submitScore(playerAObject, playerBObject, results);
   }
 
   render() {
@@ -112,13 +112,16 @@ class Battle extends React.Component {
     return (
       <div className="wrapper">
         <PlayerArea pair={this.props.pair} players={this.props.players} />
+        <div className="clearfix"></div>
         <PlayerSelectArea pair={this.props.pair} players={this.props.players} />
+        <div className="clearfix"></div>
         { hasSubmitted ? 
           <BattleSummary summary={summary} onGoBack={this.goBack} /> 
           :   
           [
             <BattleArea isReady={isReady} onAddResult={this.addResult} key={1} />,
-            <BattleResultArea results={this.props.results} onSubmit={this.submitResults} hasResults={hasResults} key={2} />,
+            <div className="clearfix" key={2}></div>,
+            <BattleResultArea results={this.props.results} onSubmit={this.submitResults} hasResults={hasResults} key={3} />,
           ] 
         }
       </div>

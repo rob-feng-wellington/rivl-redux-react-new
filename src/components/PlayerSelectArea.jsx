@@ -26,12 +26,21 @@ class PlayerSelectArea extends React.Component {
 
     this.props.players.forEach(function(player){
       const avatarLetter = player.first_name.charAt(0).toUpperCase();
+      const avatarImage = player.avartar_base64;
+      let avatar = null;
+      if (!!avatarImage) {
+        avatar = <Avatar size={35} src={avatarImage}></Avatar>;
+      } else {
+        avatar = <Avatar size={35}>{avatarLetter}</Avatar>;
+      }
+
       playerList.push(
         <MenuItem 
           value={player.id}
-          rightAvatar={<Avatar size={20}>{avatarLetter}</Avatar>}
-          key={player.id} 
+          rightAvatar={avatar}
+          key={player.id}
           primaryText={player.first_name + " " + player.last_name }
+          style={{lineHeight: "50px"}}
         />
       );
     });

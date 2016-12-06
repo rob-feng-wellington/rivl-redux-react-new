@@ -5,6 +5,14 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
 .wrapper {
   margin: 0 auto;
   width: 80%;
+
+  .half-width {
+    width: 50%;
+  }
+
+  .align-center {
+    margin: 0 auto;
+  }
 }
 
 .row {  
@@ -35,4 +43,12 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
 
 .top-buffer-10 {
   padding-top: 10px;
+}
+
+.clearfix:after {
+   content: " "; /* Older browser do not support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
 }

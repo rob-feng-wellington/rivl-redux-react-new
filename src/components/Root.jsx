@@ -28,12 +28,17 @@ const BattleField = () => (
   </MuiThemeProvider>  
 );
 
+const PlayerProfile = () => (
+  <h1>Player profile</h1>
+);
+
 const Root = ({ store }) => (
   <Provider store ={store}>
     <Router history={hashHistory}>
       <Route path='player/add' component={Add} />
+      <Route path='player/(:id)' component={PlayerProfile} />
       <Route path='battle' component={BattleField} />
-      <Route path='/(/:name)(/:gender)(/:minScore)(/:maxScore)' component={App} />
+      <Route path='/(:gender)' component={App} />
     </Router>
   </Provider>
 );

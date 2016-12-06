@@ -6,6 +6,7 @@ const Promise = RethinkdbWebsocketClient.Promise;
 
 const dbName = 'battledb';
 const tb_players_name = 'players';
+const tb_avatars_name = 'avatars';
 let query = '';
 
 const options = {
@@ -49,6 +50,7 @@ export const addPlayer = (playerObj) => {
     first_name: playerObj.first_name,
     last_name: playerObj.last_name,
     gender: playerObj.gender,
+    avartar_base64: playerObj.avartar_base64,
     score: 1500
   };
 
@@ -72,14 +74,27 @@ export const updateScore = (playerId) => {
     });
 };
 
-export const editPlayerScore = (playerObj) => {
-  query = r.table(tb_players_name).get(playerObj.id).update({score: playerObj.score});
+export const editPlayerScore = (playerId, score) => {
+  query = r.table(tb_players_name).get(playerId).update({score: score});
   return run(query)
     .catch((err) => err)
     .then((results) => {
-      query = r.table(tb_players_name).get(playerObj.id);
+      query = r.table(tb_players_name).get(playerId);
       return run(query).catch((err) => err).then((results)=>results);
     });
 }
-  
 
+export const fetchAvatars = () => {
+  query = r.table(tb_avatars_name);
+
+  return run(query).catch((err) => err).then((cursor) => (
+    cursor.toArray().then((results) => results)
+  ));
+}
+
+export const getAvatar = (id) => {
+  query = r.table(tb_avatars_name).get(id);
+  return run(query).catch((err) => err).then((cursor) => (
+    cursor.toArray().then((result) => result)
+  ));
+}

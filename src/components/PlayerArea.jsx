@@ -7,20 +7,46 @@ class PlayerSection extends React.Component {
     super(props);
   }
 
-  showNameInitial(label) {
+  getPlayerByLabel(label) {
     const id = this.props.pair[label];
-    const player = id ? find(this.props.players, ['id', id]) : null;
+    return id ? find(this.props.players, ['id', id]) : null;
+  }
+
+  showNameInitial(label) {
+    const player = this.getPlayerByLabel(label);
     return player ? player.first_name.charAt(0).toUpperCase() : '?' ;
+  }
+
+  getAvatar(label) {
+    const player = this.getPlayerByLabel(label);
+    return player ? player.avartar_base64 : '' ;
+  }
+
+  hasAvatar(label) {
+    const player = this.getPlayerByLabel(label);
+    return player ? !!player.avartar_base64 : false;
   }
 
   render() {
     const avatarSize = 200;
-    return (
-       <Avatar
-      size={avatarSize} 
-      className="avatarStyle"
-      >{this.showNameInitial(this.props.label)}</Avatar>
-    )
+    const hasAvatar = this.hasAvatar(this.props.label);
+    if(hasAvatar) {
+      return (
+        <Avatar
+        size={avatarSize} 
+        className="avatarStyle"
+        src={this.getAvatar(this.props.label)}
+        /> 
+      )
+    } else {
+      return (
+        <Avatar
+        size={avatarSize} 
+        className="avatarStyle"
+        >{this.showNameInitial(this.props.label)}
+        </Avatar>
+      )
+    }
   }
 }
 

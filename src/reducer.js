@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import byId, * as fromById from './reducers/byId';
 import createList, * as fromList from './reducers/createList';
 import createBattle, * as fromBattle from './reducers/createBattle';
+import createAvatar, * as fromAvatar from './reducers/createAvatar';
+import createPlayer, * as fromCreatePlayer  from './reducers/createPlayer';
 
 const listByFilter = combineReducers({
   all: createList('all'),
@@ -16,7 +18,9 @@ const players = combineReducers({
 
 const battleApp = combineReducers({
   players,
-  battle: createBattle()
+  battle: createBattle(),
+  avatars: createAvatar(),
+  newPlayer: createPlayer()
 });
 
 export default battleApp;
@@ -43,3 +47,12 @@ export const getBattleResults = (state) =>
 
 export const getBattleNewScores = (state) =>
   fromBattle.getBattleNewScores(state.battle);
+
+export const getAvatars = (state) =>
+  fromAvatar.getAvatars(state.avatars);
+
+export const getAvatarsIsFetching = (state) => 
+  fromAvatar.getIsFetching(state.avatars);
+
+export const getIsAddingPlayer = (state) =>
+  fromCreatePlayer.getIsAdding(state.newPlayer);

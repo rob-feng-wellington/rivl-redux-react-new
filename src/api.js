@@ -7,6 +7,7 @@ const Promise = RethinkdbWebsocketClient.Promise;
 const dbName = 'battledb';
 const tb_players_name = 'players';
 const tb_avatars_name = 'avatars';
+const tb_games_name = 'games';
 let query = '';
 
 const options = {
@@ -28,13 +29,28 @@ const run = (q) => (
 export const fetchPlayers = (filter) => {
   switch(filter){
     case 'all':
-      query = r.table(tb_players_name);
+      query = r.table(tb_players_name).merge(function (player) {
+        return {
+            games: r.table(tb_games_name).getAll(player('id'),
+                {index: 'player_id'}).orderBy(r.desc('createdAt')).coerceTo('array')
+        }
+      });
       break;
     case 'male':
-      query = r.table(tb_players_name).filter(r.row('gender').eq("M"));
+      query = r.table(tb_players_name).filter(r.row('gender').eq("M")).merge(function (player) {
+        return {
+            games: r.table(tb_games_name).getAll(player('id'),
+                {index: 'player_id'}).orderBy(r.desc('createdAt')).coerceTo('array')
+        }
+      });
       break;
     case 'female':
-      query = r.table(tb_players_name).filter(r.row('gender').eq("F"));
+      query = r.table(tb_players_name).filter(r.row('gender').eq("F")).merge(function (player) {
+        return {
+            games: r.table(tb_games_name).getAll(player('id'),
+                {index: 'player_id'}).orderBy(r.desc('createdAt')).coerceTo('array')
+        }
+      });
       break;
     default:
         throw new Error('Unknown filter: ${filter}');
@@ -45,13 +61,22 @@ export const fetchPlayers = (filter) => {
   ));
 };
 
+export const fetchPlayer = (id) => {
+  query = r.table(tb_players_name).get(id).merge(function(player){
+    return {
+      games: r.table(tb_games_name).getAll(player('id'),
+        {index: 'player_id'}).orderBy(r.desc('createdAt')).coerceTo('array')
+    }
+  });
+  return run(query).catch((err) => err).then((result) => result);
+}
+
 export const addPlayer = (playerObj) => {  
   const player = {
     first_name: playerObj.first_name,
     last_name: playerObj.last_name,
     gender: playerObj.gender,
-    avartar_base64: playerObj.avartar_base64,
-    score: 1500
+    avartar_base64: playerObj.avartar_base64
   };
 
   query = r.table(tb_players_name).insert(player);
@@ -97,4 +122,11 @@ export const getAvatar = (id) => {
   return run(query).catch((err) => err).then((cursor) => (
     cursor.toArray().then((result) => result)
   ));
+}
+
+export const addGame = (game) => {
+  query = r.table(tb_games_name).insert(game);
+  return run(query)
+    .catch((err) => err)
+    .then((result) => result);
 }

@@ -65,6 +65,10 @@ class FilteredPlayerList extends React.Component {
     if(prevProps.filter !== this.props.filter) {
       this.fetchData();
     }
+    if(this.state.subFilter.name !== '') {
+      const row = document.querySelectorAll('tr.active')[0];
+      row.scrollIntoView();
+    }
   }
 
   fetchData() {
@@ -127,6 +131,7 @@ class FilteredPlayerList extends React.Component {
           fixedFooter={this.state.table.fixedFooter}
           selectable={this.state.table.selectable}
           multiSelectable={this.state.table.multiSelectable}
+          ref="playerTable"
         >
           <TableHeader
             displaySelectAll={this.state.table.showCheckboxes}

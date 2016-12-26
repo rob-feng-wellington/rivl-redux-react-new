@@ -94,12 +94,11 @@ class Battle extends React.Component {
   }
 
   submitResults() {
-    const { calculateScore, submitScore } = this.props;
+    const { submitScore } = this.props;
     const results = this.props.results;
     const playerAObject = this.getPlayerById(this.props.pair[playerALabel]);
     const playerBObject = this.getPlayerById(this.props.pair[playerBLabel]);
-
-    //calculateScore(playerAObject, playerBObject, results);
+    
     submitScore(playerAObject, playerBObject, results);
   }
 

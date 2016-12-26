@@ -21,10 +21,6 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ actions }, dispatch);
-}
-
 class AddPlayerClass extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +28,11 @@ class AddPlayerClass extends React.Component {
       input_first_name: '',
       input_last_name: '',
       gender: 'M',
-      avatarId: ''
+      avatarId: '',
+      errors: {
+        input_first_name: '',
+        input_last_name: ''
+      }
     };
     this.genderChangeHandler = this.genderChangeHandler.bind(this);
     this.firstNameChangeHandler = this.firstNameChangeHandler.bind(this);
@@ -50,19 +50,38 @@ class AddPlayerClass extends React.Component {
   addPlayerhandler(e) {
     let { dispatch } = this.props;
     let player = {};
+    let errors = {};
+    if(this.state.input_first_name === '' || this.state.input_last_name === '') {
+      if(this.state.input_first_name === '') {
+        errors.input_first_name = 'First name is required';
+      }
+      if(this.state.input_last_name === '') {
+        errors.input_last_name = 'Last name is required';
+      }
+
+      this.setState({'errors': errors});
+      return;
+    } 
     player.first_name = this.state.input_first_name;
     player.last_name = this.state.input_last_name;
     player.gender = this.state.gender;
-    const avatar = find(this.props.avatars, (avatar) => {
-      return avatar.id === this.state.avatarId
-    });
-    const avatarPath = window.location.origin + '/' + avatar.path;
-    
-    this.toDataUrl(avatarPath, (base64) => {
-      player.avartar_base64 = base64;
+    if (this.state.avatarId !== '') {
+      const avatar = find(this.props.avatars, (avatar) => {
+        return avatar.id === this.state.avatarId
+      });
+      const avatarPath = window.location.origin + '/' + avatar.path;
+      
+      this.toDataUrl(avatarPath, (base64) => {
+        player.avartar_base64 = base64;
+        let action = actions.addPlayer(player);
+        dispatch(action);
+      });
+    } else {
+      player.avartar_base64 = '';
       let action = actions.addPlayer(player);
       dispatch(action);
-    });
+    }
+
   }
 
   genderChangeHandler(e, index, value) {
@@ -110,6 +129,7 @@ class AddPlayerClass extends React.Component {
               hintText=""
               floatingLabelText="First name"
               floatingLabelFixed={true}
+              errorText={this.state.errors.input_first_name || ''}
               onChange={this.firstNameChangeHandler}                                             
             />
             <br />
@@ -117,6 +137,7 @@ class AddPlayerClass extends React.Component {
               hintText=""
               floatingLabelText="Last name"
               floatingLabelFixed={true}
+              errorText={this.state.errors.input_last_name || ''}
               onChange={this.lastNameChangeHandler}                                            
             />
             <br />

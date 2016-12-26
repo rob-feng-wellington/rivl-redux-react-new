@@ -4,6 +4,7 @@ import createList, * as fromList from './reducers/createList';
 import createBattle, * as fromBattle from './reducers/createBattle';
 import createAvatar, * as fromAvatar from './reducers/createAvatar';
 import createPlayer, * as fromCreatePlayer  from './reducers/createPlayer';
+import createProfile, * as fromProfile from './reducers/createProfile';
 
 const listByFilter = combineReducers({
   all: createList('all'),
@@ -20,7 +21,8 @@ const battleApp = combineReducers({
   players,
   battle: createBattle(),
   avatars: createAvatar(),
-  newPlayer: createPlayer()
+  newPlayer: createPlayer(),
+  profile: createProfile()
 });
 
 export default battleApp;
@@ -56,3 +58,9 @@ export const getAvatarsIsFetching = (state) =>
 
 export const getIsAddingPlayer = (state) =>
   fromCreatePlayer.getIsAdding(state.newPlayer);
+
+export const getProfileIsFetching = (state) => 
+  fromProfile.getIsFetching(state.profile);
+
+export const getProfile = (state) => 
+  fromProfile.getProfile(state.profile);

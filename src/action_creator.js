@@ -2,7 +2,11 @@ import { normalize } from 'normalizr';
 import * as schema from './schema';
 import { getIsFetching, getBattleNewScores } from './reducer';
 import * as api from './api';
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router';
+import Elo from 'elo-js';
+
+import forEach from 'lodash/forEach';
+import clone from 'lodash/clone';
 
 export const fetchPlayers = (filter) => (dispatch, getState) => {
   if(getIsFetching(getState(), filter)){
@@ -31,6 +35,21 @@ export const fetchPlayers = (filter) => (dispatch, getState) => {
     }
   );
 };
+
+export const fetchPlayer = (id) => (dispatch) => {
+  dispatch({
+    type: 'FETCH_PLAYER_REQUEST'
+  });
+
+  return api.fetchPlayer(id).then(
+    response => {
+      dispatch({
+        type: 'FETCH_PLAYER_SUCCESS',
+        data: response
+      });
+    }
+  );
+}
 
 export const addPlayer = (player)  => (dispatch) => {
   dispatch({
@@ -84,32 +103,69 @@ export const removeResult = (whichResult) => (dispatch) => {
   });
 }
 
-export const calculateScore = (playerA, playerB, results) => (dispatch) => {
-  dispatch({
-    type: 'CALCULATE_BATTLE_SCORE',
-    data: {
-      playerA: playerA,
-      playerB: playerB,
-      results: results
-    }
-  });
-}
-
 export const submitScore = (playerA, playerB, results) => (dispatch, getState) => {
-  dispatch({
-    type: 'CALCULATE_BATTLE_SCORE',
-    data: {
-      playerA: playerA,
-      playerB: playerB,
-      results: results
+  
+  let games = [];
+  let xhrs = [];
+  let elo = new Elo();
+  let newPlayerAScore, newPlayerBScore;
+  let playerAObj = clone(playerA);
+  let playerBObj = clone(playerB);
+  let playerAScore = playerAObj.score;
+  let playerBScore = playerBObj.score;
+
+  forEach(results, function(result) {
+    let gameA = {};
+    let gameB = {};
+    if(result === 'playerA') {
+      gameA.player_id = playerA.id;
+      gameA.opponent = playerB.id;
+      gameB.player_id = playerB.id;
+      gameB.opponent = playerA.id;
+
+      newPlayerAScore = elo.ifWins(playerAScore, playerBScore);
+      newPlayerBScore = elo.ifLoses(playerBScore, playerAScore);
+      gameA.score = newPlayerAScore;
+      gameB.score = newPlayerBScore;
+      gameA.gain = newPlayerAScore - playerAScore;
+      gameB.gain = newPlayerBScore - playerBScore;
+      games.push(gameA);
+      games.push(gameB);
     }
+
+    if(result === 'playerB') {
+      gameA.player_id = playerB.id;
+      gameA.opponent = playerA.id;
+      gameB.player_id = playerA.id;
+      gameB.opponent = playerB.id;
+
+      newPlayerAScore = elo.ifLoses(playerAScore, playerBScore);
+      newPlayerBScore = elo.ifWins(playerBScore, playerAScore);
+      gameA.score = newPlayerBScore;
+      gameB.score = newPlayerAScore;
+      gameA.gain = newPlayerBScore - playerBScore;
+      gameB.gain = newPlayerAScore - playerAScore;
+      games.push(gameA);
+      games.push(gameB);
+    }
+
+    playerAScore = newPlayerAScore;
+    playerBScore = newPlayerBScore;
+  })
+
+  let ind = 0
+  forEach(games, (game, ind) => {
+    game.createdAt = +new Date() + ind;
+    xhrs.push(api.addGame(game));
+    ind += 10;
   });
-  const newScores = getBattleNewScores(getState());
-  debugger;
-  return Promise.all([
-    api.editPlayerScore(playerA.id, newScores.playerA),
-    api.editPlayerScore(playerB.id, newScores.playerB)
-  ]).then(() => {
+
+  dispatch({
+    type: 'UPDATE_NEW_SCORE',
+    data: {playerA: playerAScore, playerB: playerBScore}
+  });
+
+  return Promise.all(xhrs).then(()=> {
     dispatch({
       type: 'SUBMIT_SCORE_SUCCESS'
     });

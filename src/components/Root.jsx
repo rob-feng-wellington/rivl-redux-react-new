@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FilteredPlayerList from './PlayerList';
 import AddPlayer from './AddPlayer';
 import Battle from './Battle';
+import Profile from './Profile';
 
 require('../sass/common.scss');
 
@@ -29,14 +30,16 @@ const BattleField = () => (
 );
 
 const PlayerProfile = () => (
-  <h1>Player profile</h1>
+  <MuiThemeProvider>
+    <Profile />
+  </MuiThemeProvider>
 );
 
 const Root = ({ store }) => (
   <Provider store ={store}>
     <Router history={hashHistory}>
       <Route path='player/add' component={Add} />
-      <Route path='player/(:id)' component={PlayerProfile} />
+      <Route path='player/:id' component={PlayerProfile} />
       <Route path='battle' component={BattleField} />
       <Route path='/(:gender)' component={App} />
     </Router>

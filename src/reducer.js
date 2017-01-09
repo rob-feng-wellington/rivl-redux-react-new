@@ -59,8 +59,13 @@ export const getAvatarsIsFetching = (state) =>
 export const getIsAddingPlayer = (state) =>
   fromCreatePlayer.getIsAdding(state.newPlayer);
 
+export const getChooseAvatar = (state) => 
+  fromCreatePlayer.getChooseAvatar(state.newPlayer);
+
 export const getProfileIsFetching = (state) => 
   fromProfile.getIsFetching(state.profile);
 
 export const getProfile = (state) => 
   fromProfile.getProfile(state.profile);
+
+

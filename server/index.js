@@ -20,5 +20,5 @@ wsListen({
 });
 
 // Start the HTTP server on the configured port
-httpServer.listen(8015);
+httpServer.listen(process.env.PORT || 5000);
 console.log('Server started');

@@ -13,11 +13,21 @@ const CreatePlayer = () => {
     return state;
   }
 
+  const chooseAvater = (state = true, action) => {
+    if(action.type === 'CHANGE_CHOOSE_AVATAR') {
+      return action.data;
+    }
+
+    return state;
+  }
+
   return combineReducers({
-    isAdding
+    isAdding,
+    chooseAvater
   });
 }
 
 export const getIsAdding = (state) => state.isAdding;
+export const getChooseAvatar = (state) => state.chooseAvater;
 
 export default CreatePlayer;

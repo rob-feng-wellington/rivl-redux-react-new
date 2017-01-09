@@ -4,6 +4,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8081',
     'webpack/hot/only-dev-server',
+    'babel-polyfill',
     './src/index.jsx'
   ],
   module: {
@@ -21,7 +22,9 @@ module.exports = {
     },{
       test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
       loader: 'url'
-    }]
+    },
+    { test: /\.css$/, loader: "style-loader!css-loader" }
+    ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

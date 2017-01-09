@@ -192,3 +192,10 @@ export const loadAvatars = () => (dispatch) => {
     }
   );
 }
+
+export const changeChooseAvatar = (setting) => (dispatch) => {
+  dispatch({
+    type: 'CHANGE_CHOOSE_AVATAR',
+    data: setting
+  });
+}

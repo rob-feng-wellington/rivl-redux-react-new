@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/Root';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import configureStore from './configureStore';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const store = configureStore();
 
@@ -11,6 +14,12 @@ const store = configureStore();
 injectTapEventPlugin();
 
 ReactDOM.render(
-  <Root store={store} />,
+	<MuiThemeProvider>
+		<div>
+		<Header />
+  	<Root store={store} />
+  	<Footer />
+  	</div>
+  </MuiThemeProvider>,
   document.getElementById('app')
 );

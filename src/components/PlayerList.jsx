@@ -113,7 +113,7 @@ class FilteredPlayerList extends React.Component {
     const sortedPlayers = this.getSortedPlayers();
 
     if( isFetching && !players.length) {
-      return <p>Loading, please wait....</p>;
+      return <div className="wrapper"><p>Loading, please wait....</p></div>;
     }
     if( errorMessage && !players.length) {
       return (
@@ -132,20 +132,17 @@ class FilteredPlayerList extends React.Component {
           selectable={this.state.table.selectable}
           multiSelectable={this.state.table.multiSelectable}
           ref="playerTable"
+          className="normal-font"
         >
           <TableHeader
             displaySelectAll={this.state.table.showCheckboxes}
             adjustForCheckbox={this.state.table.showCheckboxes}
             enableSelectAll={this.state.table.enableSelectAll}
+            className="normal-font"
           >
             <TableRow>
-              <TableHeaderColumn colSpan="4" tooltip="Score board" style={{textAlign: 'center'}}>
-                Score board
-              </TableHeaderColumn>
-            </TableRow>
-            <TableRow>
-              <TableHeaderColumn>Rank</TableHeaderColumn>
-              <TableHeaderColumn>
+              <TableHeaderColumn className="normal-font">Rank</TableHeaderColumn>
+              <TableHeaderColumn className="normal-font"> 
                 <AutoComplete
                   fullWidth={true}
                   floatingLabelText="Name"
@@ -156,7 +153,7 @@ class FilteredPlayerList extends React.Component {
                   className="normal-font"
                 />
               </TableHeaderColumn>
-              <TableHeaderColumn>
+              <TableHeaderColumn className="normal-font">
                 <SelectField
                   floatingLabelText="Gender"
                   value={this.state.filter.gender}
@@ -169,7 +166,7 @@ class FilteredPlayerList extends React.Component {
                   <MenuItem value='female' primaryText="Female" />
                 </SelectField>
               </TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Score">Score</TableHeaderColumn>
+              <TableHeaderColumn className="normal-font">Score</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -177,21 +174,22 @@ class FilteredPlayerList extends React.Component {
             deselectOnClickaway={this.state.table.deselectOnClickaway}
             showRowHover={this.state.table.showRowHover}
             stripedRows={this.state.table.stripedRows}
+            className="normal-font"
           >
             {sortedPlayers.map( (player, index) => {
               const className = player.id === this.state.subFilter.id ? 'active' : 'inactive';
               return (
                 <TableRow className={className} key={index}>
-                  <TableRowColumn>{index + 1}</TableRowColumn>
-                  <TableRowColumn>
+                  <TableRowColumn className="normal-font">{index + 1}</TableRowColumn>
+                  <TableRowColumn className="normal-font">
                      <Link
                       to={ {pathname: '/player/' + player.id  }}
                     >
                       {player.first_name + ' ' + player.last_name}
                     </Link>
                   </TableRowColumn>
-                  <TableRowColumn>{player.gender}</TableRowColumn>
-                  <TableRowColumn>{player.score}</TableRowColumn>
+                  <TableRowColumn className="normal-font">{player.gender}</TableRowColumn>
+                  <TableRowColumn className="normal-font">{player.score}</TableRowColumn>
                 </TableRow>
               );
             })}

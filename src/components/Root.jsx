@@ -2,8 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory } from 'react-router';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import FilteredPlayerList from './PlayerList';
 import AddPlayer from './AddPlayer';
 import Battle from './Battle';
@@ -12,27 +10,19 @@ import Profile from './Profile';
 require('../sass/common.scss');
 
 const App = () => (
-  <MuiThemeProvider>
-    <FilteredPlayerList />
-  </MuiThemeProvider>
+  <FilteredPlayerList />
 );
 
 const Add = () => (
-  <MuiThemeProvider>
-    <AddPlayer />
-  </MuiThemeProvider>
+  <AddPlayer />
 );
 
 const BattleField = () => (
-  <MuiThemeProvider>
-    <Battle />
-  </MuiThemeProvider>  
+  <Battle />
 );
 
 const PlayerProfile = () => (
-  <MuiThemeProvider>
-    <Profile />
-  </MuiThemeProvider>
+  <Profile />
 );
 
 const Root = ({ store }) => (

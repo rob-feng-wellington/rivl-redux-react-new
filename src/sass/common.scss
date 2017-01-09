@@ -4,7 +4,8 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
 
 html {
   font-size: 16px;
-  color: #333;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(0, 0, 0, 0.498039);
 }
 
 h1 {
@@ -21,6 +22,10 @@ h3 {
 
 .text-light {
   color: #777;
+}
+
+.text-dark-background {
+  color: rgba(255, 255, 255, 0.541176);
 }
 
 .game-won {
@@ -41,6 +46,7 @@ h3 {
 .wrapper {
   margin: 0 auto;
   width: 80%;
+  min-height: 600px;
 
   .half-width {
     width: 50%;
@@ -74,6 +80,20 @@ h3 {
   }
 }
 
+.footer {
+  margin-top: 20px;
+  background: #78909C;
+  .wrapper{
+    text-align: center;
+    padding: 20px 0;
+    min-height: 100px;
+  }
+
+  h4 {
+    margin: 10px auto;
+  }
+}
+
 .divider-10 {
     width:10px;
     height:auto;
@@ -91,3 +111,14 @@ h3 {
    height: 0;
    clear: both;
 }
+
+i {
+  &.color-main-icon {
+    color: #3e75c3
+  }
+}
+
+.display-none {
+  display: none;
+}
+

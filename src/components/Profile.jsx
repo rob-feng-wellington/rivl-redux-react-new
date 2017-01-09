@@ -43,7 +43,7 @@ class Profile extends React.Component {
     let score = 1500;
     let gamesPlayed = 0;
     let formCount = 0;
-    let formHtml = null;
+    let formHtml = <span>No records</span>;
     const player = this.props.profile;
 
     if(!isEmpty(player)) {
@@ -60,20 +60,23 @@ class Profile extends React.Component {
                   >{player.first_name.charAt(0).toUpperCase()}
                 </Avatar>;
       }
-      score =  player.games[0].score;
-      gamesPlayed = player.games.length;
-      formCount = gamesPlayed > 5 ? 5: gamesPlayed;
-      formHtml = player.games.slice(0, formCount).map((game,key) => {
-        if(key < formCount -1 ) {
-          return game.gain > 0 ? 
-            <span key={key}><span className='game-won'>W</span><span>-</span></span> : 
-            <span key={key}><span className='game-lost'>L</span><span>-</span></span>;
-        } else {
-          return game.gain > 0 ? 
-            <span key={key}><span className='game-won'>W</span></span> : 
-            <span key={key}><span className='game-lost'>L</span></span>;
-        }
-      });
+      if(player.games.length > 0){
+        score =  player.games[0].score;
+        gamesPlayed = player.games.length;
+        formCount = gamesPlayed > 5 ? 5: gamesPlayed;
+        formHtml = player.games.slice(0, formCount).map((game,key) => {
+          if(key < formCount -1 ) {
+            return game.gain > 0 ? 
+              <span key={key}><span className='game-won'>W</span><span>-</span></span> : 
+              <span key={key}><span className='game-lost'>L</span><span>-</span></span>;
+          } else {
+            return game.gain > 0 ? 
+              <span key={key}><span className='game-won'>W</span></span> : 
+              <span key={key}><span className='game-lost'>L</span></span>;
+          }
+        });  
+      } 
+      
     }
     
     return (

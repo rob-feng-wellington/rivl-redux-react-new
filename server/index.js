@@ -8,10 +8,11 @@ var wsListen = require('rethinkdb-websocket-server').listen;
 var app = express();
 app.use('/', express.static('assets'));
 app.use('/node_modules', express.static('node_modules'));
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.send('hello world')
-})
+
+app.get('*', function(req, res) {  
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 var httpServer = http.createServer(app);
 
 

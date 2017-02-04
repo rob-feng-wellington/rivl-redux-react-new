@@ -22,5 +22,5 @@ var serverConfig = {
 wsListen(serverConfig);
 
 // Start the HTTP server on the configured port
-httpServer.listen(process.env.SERVER_PORT || 8015);
+httpServer.listen(process.env.PORT || 8015);
 console.log('Server started');

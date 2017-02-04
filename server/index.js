@@ -11,14 +11,16 @@ app.use('/node_modules', express.static('node_modules'));
 var httpServer = http.createServer(app);
 
 // Configure rethinkdb-websocket-server to listen on the /db path
-wsListen({
+
+var serverConfig = {
     httpServer: httpServer,
-    httpPath: '/db',
-    dbHost: 'localhost',
-    dbPort: 28015,
+    httpPath: process.env.DB_PATH || '/db',
+    dbHost: process.env.DB_HOST || 'localhost',
+    dbPort: process.env.DB_PORT || '28015',
     unsafelyAllowAnyQuery: true,
-});
+};
+wsListen(serverConfig);
 
 // Start the HTTP server on the configured port
-httpServer.listen(process.env.PORT || 8015);
+httpServer.listen(process.env.SERVER_PORT || 8015);
 console.log('Server started');

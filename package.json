@@ -12,7 +12,7 @@
     "build:images": "cp -R dist/images/ public/images",
     "prebuild": "npm-run-all clean-public build:html build:images",
     "build": "babel-node tools/build.js",
-    "postbuild": "NODE_ENV=production babel-node server/index.js",
+    "postbuild": "NODE_ENV=production babel-node server/index.js"
   },
   "keywords": [
     "react",

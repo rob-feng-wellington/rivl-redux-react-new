@@ -5,11 +5,11 @@ import * as actions from '../action_creator';
 import { getBattlePair, getPlayersByGender, getBattleResults, getBattleNewScores } from '../reducer';
 
 //components
-import PlayerArea from './PlayerArea';
-import PlayerSelectArea from './PlayerSelectArea';
-import BattleResultArea from './BattleResultArea';
-import BattleArea from './BattleArea';
-import BattleSummary from './BattleSummary';
+import PlayerArea from './PlayerArea.jsx';
+import PlayerSelectArea from './PlayerSelectArea.jsx';
+import BattleResultArea from './BattleResultArea.jsx';
+import BattleArea from './BattleArea.jsx';
+import BattleSummary from './BattleSummary.jsx';
 
 //helpers
 import find from 'lodash/find';

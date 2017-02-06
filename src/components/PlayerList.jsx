@@ -4,7 +4,7 @@ import { withRouter, hashHistory, Link } from 'react-router';
 import { getPlayersByGender, getIsFetching, getErrorMessage } from '../reducer';
 import * as actions from '../action_creator';
 
-import FetchError from './FetchError';
+import FetchError from './FetchError.jsx';
 
 
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}

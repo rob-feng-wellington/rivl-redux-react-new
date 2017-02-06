@@ -1,22 +1,28 @@
 {
-  "name": "battle",
+  "name": "battle-rivl",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple score tracking system",
+  "main": "./src/index.jsx",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "NODE_ENV=development node server/index.js",
     "resetdb": "node server/resetdb.js",
     "clean-public": "npm run remove-public && mkdir public",
     "remove-public": "node_modules/.bin/rimraf ./public",
     "build:html": "babel-node tools/buildHtml.js",
     "build:images": "cp -R dist/images/ public/images",
     "prebuild": "npm-run-all clean-public build:html build:images",
+    "heroku-prebuild": "npm-run-all clean-public build:html build:images",
     "build": "babel-node tools/build.js",
-    "buildDev": "babel-node tools/buildDev.js",
-    "postbuild": "babel-node server/index.js"
+    "postbuild": "NODE_ENV=production babel-node server/index.js",
+    "heroku-postbuild": "NODE_ENV=production babel-node server/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react",
+    "redux",
+    "webpack",
+    "rethinkdb"
+  ],
+  "author": "Rob Feng",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -31,6 +37,7 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.25.0",
     "node-sass": "^3.11.2",
+    "npm-run-all": "^4.0.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.5",

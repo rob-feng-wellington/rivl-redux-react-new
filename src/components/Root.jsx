@@ -2,10 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory } from 'react-router';
 
-import FilteredPlayerList from './PlayerList';
-import AddPlayer from './AddPlayer';
-import Battle from './Battle';
-import Profile from './Profile';
+import FilteredPlayerList from './PlayerList.jsx';
+import AddPlayer from './AddPlayer.jsx';
+import Battle from './Battle.jsx';
+import Profile from './Profile.jsx';
 
 require('../sass/common.scss');
 

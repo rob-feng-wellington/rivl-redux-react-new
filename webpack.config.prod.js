@@ -5,7 +5,8 @@ export default {
   devtool: 'source-map',
 
   entry: [
-    './src/index'
+    'babel-polyfill',
+    './src/index.jsx'
   ],
 
   output: {
@@ -25,29 +26,41 @@ export default {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'DB_HOST': 'localhost',
-        'DB_PORT': '28015',
-        'DB_PATH': '/db',
-        'DB_SECURE': FALSE,
-        'DB_NAME': 'battledb',
-        'SERVER_PORT': '8015',
+        'DB_HOST': JSON.stringify('localhost'),
+        'DB_PORT': 28015,
+        'DB_PATH': JSON.stringify('/db'),
+        'DB_SECURE': false,
+        'DB_NAME': JSON.stringify('battledb'),
+        'SERVER_PORT': 5000,
       }
     })
   ],
 
    module: {
     loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
       { test: /\.js?$/,
         loader: 'babel',
         exclude: /node_modules/ },
-      { test: /\.scss?$/,
-        loader: 'style!css!sass',
-        include: path.join(__dirname, 'src', 'styles') },
+      {
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass']
+    },
       { test: /\.png$/,
         loader: 'file' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file'}
+        loader: 'file'},
+      { test: /\.css$/, 
+        loaders: ['style-loader', 'css-loader']
+      }
     ]
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
   }
  }
 

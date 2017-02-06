@@ -20,7 +20,7 @@ import '../../node_modules/react-crop/cropper.css';
 import "babel-core/register";
 //import "babel-polyfill";
 
-import AvatarList from './AvatarList';
+import AvatarList from './AvatarList.jsx';
 
 const mapStateToProps = (state) => {
   return {

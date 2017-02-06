@@ -22,6 +22,9 @@
     "webpack",
     "rethinkdb"
   ],
+  "engines": {
+    "node": "4.6.2"
+  },
   "author": "Rob Feng",
   "license": "ISC",
   "devDependencies": {

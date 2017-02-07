@@ -84,6 +84,6 @@
     "rethinkdb-websocket-server": "^0.6.0",
     "rimraf": "^2.5.4",
     "cheerio": "^0.20.0",
-    "colors": "1.1.2",
+    "colors": "1.1.2"
   }
 }

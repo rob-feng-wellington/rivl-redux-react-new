@@ -82,6 +82,8 @@
     "redux-thunk": "^2.1.0",
     "rethinkdb-websocket-client": "^0.5.1",
     "rethinkdb-websocket-server": "^0.6.0",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "cheerio": "^0.20.0",
+    "colors": "1.1.2",
   }
 }

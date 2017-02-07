@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-export default {  
+module.exports = {  
   devtool: 'source-map',
 
   entry: [
@@ -52,8 +52,10 @@ export default {
     },
       { test: /\.png$/,
         loader: 'file' },
-      { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file'},
+      {
+        test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
+        loader: 'url'
+      },
       { test: /\.css$/, 
         loaders: ['style-loader', 'css-loader']
       }

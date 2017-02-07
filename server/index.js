@@ -22,7 +22,10 @@ var app = express();
 app.use(express.static('public'));
 //app.use(favicon(path.join(__dirname,'assets','public','favicon.ico')));
 
-app.get('/', function(req, res) {
+// make express look in the public directory for assets (css/js/img)
+//app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 var httpServer = http.createServer(app);
@@ -31,7 +34,7 @@ var httpServer = http.createServer(app);
 
 var serverConfig = {
     httpServer: httpServer,
-    httpPath: process.env.DB_PATH || '/db',
+    httpPath: process.env.DB_PATH || '/db',	
     dbHost: process.env.DB_HOST || 'localhost',
     dbPort: process.env.DB_PORT || 28015,
     unsafelyAllowAnyQuery: true,

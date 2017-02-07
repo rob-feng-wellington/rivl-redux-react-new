@@ -6,9 +6,9 @@
 2 info using npm@2.14.12
 3 info using node@v4.2.6
 4 verbose stack Error: Failed to parse json
-4 verbose stack Trailing comma in object at 16:3
-4 verbose stack   },
-4 verbose stack   ^
+4 verbose stack Unexpected token '/' at 13:5
+4 verbose stack     //"prebuild": "npm-run-all clean-public build:html build:images",
+4 verbose stack     ^
 4 verbose stack     at parseError (/home/rob/.nvm/versions/node/v4.2.6/lib/node_modules/npm/node_modules/read-package-json/read-json.js:379:11)
 4 verbose stack     at parseJson (/home/rob/.nvm/versions/node/v4.2.6/lib/node_modules/npm/node_modules/read-package-json/read-json.js:68:23)
 4 verbose stack     at /home/rob/.nvm/versions/node/v4.2.6/lib/node_modules/npm/node_modules/read-package-json/read-json.js:48:5
@@ -22,9 +22,9 @@
 10 error file /home/rob/workspace/redux/battle/package.json
 11 error code EJSONPARSE
 12 error Failed to parse json
-12 error Trailing comma in object at 16:3
-12 error   },
-12 error   ^
+12 error Unexpected token '/' at 13:5
+12 error     //"prebuild": "npm-run-all clean-public build:html build:images",
+12 error     ^
 13 error File: /home/rob/workspace/redux/battle/package.json
 14 error Failed to parse package.json data.
 14 error package.json must be actual JSON, not just JavaScript.

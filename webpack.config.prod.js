@@ -6,7 +6,7 @@ module.exports = {
 
   entry: [
     'babel-polyfill',
-    './src/index.jsx'
+    './src/index'
   ],
 
   output: {
@@ -49,20 +49,15 @@ module.exports = {
       {
       test: /\.scss$/,
       loaders: ['style', 'css', 'sass']
-    },
+      },
       { test: /\.png$/,
         loader: 'file' },
-      {
-        test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
-        loader: 'url'
-      },
+      { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file'},
       { test: /\.css$/, 
         loaders: ['style-loader', 'css-loader']
       }
     ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
   }
  }
 

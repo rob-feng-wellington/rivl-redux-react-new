@@ -3,6 +3,8 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');  
+import open from 'open';
+import compression from 'compression';
 var wsListen = require('rethinkdb-websocket-server').listen;
 console.log("NODE_ENV: " + process.env.NODE_ENV);
 
@@ -19,15 +21,15 @@ if(process.env.NODE_ENV === 'production') {
 }
 // Set up the HTTP routes
 var app = express();
+
+app.use(compression());
 app.use(express.static('public'));
 //app.use(favicon(path.join(__dirname,'assets','public','favicon.ico')));
-
-// make express look in the public directory for assets (css/js/img)
-//app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+
 var httpServer = http.createServer(app);
 
 // Configure rethinkdb-websocket-server to listen on the /db path

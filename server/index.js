@@ -8,7 +8,7 @@ import compression from 'compression';
 var wsListen = require('rethinkdb-websocket-server').listen;
 
 process.env.DB_PATH = '/';
-process.env.DB_HOST = 'rethinkdb://admin:hQwx6x0O4mY9pHQHgkY0eW5h8wpbGu73esv2h-aBVVg@aws-ap-southeast-1-portal.1.dblayer.com';
+process.env.DB_HOST = 'ws-ap-southeast-1-portal.1.dblayer.com';
 process.env.DB_PORT = 15329;
 process.env.SERVER_PORT = 5000;
 
@@ -33,6 +33,8 @@ var serverConfig = {
 	dbHost: process.env.DB_HOST,
 	dbPort: process.env.DB_PORT,
 	unsafelyAllowAnyQuery: true,
+	dbAuthKey: 'hQwx6x0O4mY9pHQHgkY0eW5h8wpbGu73esv2h-aBVVg',
+	dbSsl: true
 };
 
 wsListen(serverConfig);

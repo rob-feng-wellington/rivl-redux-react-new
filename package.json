@@ -4,15 +4,17 @@
   "description": "Simple score tracking system",
   "main": "./src/index.jsx",
   "scripts": {
-    "start": "NODE_ENV=development babel-node server/index.js",
+    "prestart": "babel-node tools/buildDev.js",
+    "start": "babel-node server/indexLocal.js",
     "resetdb": "node server/resetdb.js",
     "clean-public": "npm run remove-public && mkdir public",
     "remove-public": "node_modules/.bin/rimraf ./public",
     "build:html": "babel-node tools/buildHtml.js",
     "build:images": "cp -R dist/images/ public/images",
     "prebuild": "npm-run-all clean-public build:html build:images",
+    "postinstall": "npm-run-all clean-public build:html build:images",
     "build": "babel-node tools/build.js",
-    "postbuild": "NODE_ENV=production babel-node server/index.js"
+    "postbuild": "babel-node server/index.js"
   },
   "keywords": [
     "react",

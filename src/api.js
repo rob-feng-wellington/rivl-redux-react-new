@@ -17,6 +17,8 @@ const options = {
   db: process.env.DB_NAME,              // default database, passed to rethinkdb.connect
 };
 
+console.log(options);
+
 const connPromise = RethinkdbWebsocketClient.connect(options);
 
 const run = (q) => (

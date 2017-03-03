@@ -6,7 +6,7 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:8081',
     'webpack/hot/only-dev-server',
     'babel-polyfill',
-    './src/index.jsx'
+    './src/index.js'
   ],
   output: {
     path: __dirname + '/dist',
@@ -16,7 +16,7 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
-    port: 8081
+    port: 8015
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

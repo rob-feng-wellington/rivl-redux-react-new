@@ -15,6 +15,8 @@ const options = {
   path: process.env.DB_PATH,               // HTTP path to websocket route
   secure: process.env.DB_SECURE,           // set true to use secure TLS websockets
   db: process.env.DB_NAME,              // default database, passed to rethinkdb.connect
+  dbAuthKey: 'hQwx6x0O4mY9pHQHgkY0eW5h8wpbGu73esv2h-aBVVg',
+	dbSsl: true
 };
 
 console.log(options);

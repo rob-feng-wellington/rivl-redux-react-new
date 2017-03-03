@@ -1,6 +1,6 @@
 # rivl-redux-react-new
 ## Introduction
-Rivl is for workmates to track table tennis scores
+Rivl is for workmates to track ranks, scores and history
 
 ## What does rivl do
 1. A score board to show ranks, scores for players

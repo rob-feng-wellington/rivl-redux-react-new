@@ -31,7 +31,7 @@ const HomeIcon = (props) => (
 
 const Header = () => (
   <AppBar
-    title={<span>Table Tennis Battlefield</span>}
+    title={<span>Versus Battlefield</span>}
     onLeftIconButtonTouchTap={handleGoToHome}
     iconElementLeft={<IconButton><HomeIcon /></IconButton>}
     iconElementRight={<ToolbarGroup>

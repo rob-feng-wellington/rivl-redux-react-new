@@ -9,9 +9,9 @@ var wsListen = require('rethinkdb-websocket-server').listen;
 console.log("NODE_ENV: " + process.env.NODE_ENV);
 
 if(process.env.NODE_ENV === 'production') {
-	process.env.DB_PATH = '/db';
-	process.env.DB_HOST = 'localhost';
-	process.env.DB_PORT = 28015;
+	process.env.DB_PATH = '/';
+	process.env.DB_HOST = 'rethinkdb://admin:hQwx6x0O4mY9pHQHgkY0eW5h8wpbGu73esv2h-aBVVg@aws-ap-southeast-1-portal.1.dblayer.com';
+	process.env.DB_PORT = 15329;
 	process.env.SERVER_PORT = 5000;
 } else {
 	process.env.DB_PATH = '/db';
@@ -33,14 +33,14 @@ app.get('*', function(req, res) {
 var httpServer = http.createServer(app);
 
 // Configure rethinkdb-websocket-server to listen on the /db path
-
 var serverConfig = {
-    httpServer: httpServer,
-    httpPath: process.env.DB_PATH || '/db',	
-    dbHost: process.env.DB_HOST || 'localhost',
-    dbPort: process.env.DB_PORT || 28015,
-    unsafelyAllowAnyQuery: true,
-};
+	    httpServer: httpServer,
+	    httpPath: process.env.DB_PATH,	
+	    dbHost: process.env.DB_HOST,
+	    dbPort: process.env.DB_PORT,
+	    unsafelyAllowAnyQuery: true,
+	};
+
 wsListen(serverConfig);
 
 // Start the HTTP server on the configured port

@@ -26,11 +26,11 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'DB_HOST': JSON.stringify('localhost'),
-        'DB_PORT': 28015,
-        'DB_PATH': JSON.stringify('/db'),
+        'DB_HOST': JSON.stringify('rethinkdb://admin:hQwx6x0O4mY9pHQHgkY0eW5h8wpbGu73esv2h-aBVVg@aws-ap-southeast-1-portal.1.dblayer.com'),
+        'DB_PORT': 15329,
+        'DB_PATH': JSON.stringify('/'),
         'DB_SECURE': false,
-        'DB_NAME': JSON.stringify('battledb'),
+        'DB_NAME': JSON.stringify('react-versus'),
         'SERVER_PORT': 5000,
       }
     })

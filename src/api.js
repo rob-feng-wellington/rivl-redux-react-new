@@ -11,7 +11,7 @@ let query = '';
 
 const options = {
   host: process.env.DB_HOST,       // hostname of the websocket server
-  port: process.env.SERVER_PORT,             // port number of the websocket server
+  port: process.env.DB_PORT,             // port number of the websocket server
   path: process.env.DB_PATH,               // HTTP path to websocket route
   secure: process.env.DB_SECURE,           // set true to use secure TLS websockets
   db: process.env.DB_NAME,              // default database, passed to rethinkdb.connect

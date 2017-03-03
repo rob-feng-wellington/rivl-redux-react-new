@@ -24,17 +24,18 @@ app.get('*', function(req, res) {
 });
 
 var httpServer = http.createServer(app);
+var port = process.env.PORT || process.env.SERVER_PORT;
 
 // Configure rethinkdb-websocket-server to listen on the /db path
 var serverConfig = {
-	    httpServer: httpServer,
-	    httpPath: process.env.DB_PATH,	
-	    dbHost: process.env.DB_HOST,
-	    dbPort: process.env.DB_PORT,
-	    unsafelyAllowAnyQuery: true,
-	};
+	httpServer: httpServer,
+	httpPath: process.env.DB_PATH,	
+	dbHost: process.env.DB_HOST,
+	dbPort: process.env.DB_PORT,
+	unsafelyAllowAnyQuery: true,
+};
 
 wsListen(serverConfig);
 // Start the HTTP server on the configured port
-httpServer.listen(process.env.PORT || process.env.SERVER_PORT);
-console.log('Server started');
+httpServer.listen(port);
+console.log('Server started port: ' + port);

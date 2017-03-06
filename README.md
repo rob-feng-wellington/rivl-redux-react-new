@@ -9,7 +9,14 @@ Rivl is for workmates to track ranks, scores and history
 4. A player add page
 
 ## Installation
-to come ....
+1. Install nodeJs
+2. Install rethinkDB
+3. clone repository
+4. go to directory and run npm install
+5. run npm run resetdb to initial database
+6. run rethinkDB
+7. run npm start
+8. go to http://localhost:8015 and success
 
 ## Key Technologies
 1. React

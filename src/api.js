@@ -9,17 +9,18 @@ const tb_avatars_name = 'avatars';
 const tb_games_name = 'games';
 let query = '';
 
-let port = process.env.SERVER_PORT || 5000;
+let port = process.env.PORT || process.env.SERVER_PORT || 5000;
 
 const options = {
   host: process.env.DB_HOST,                                      // hostname of the websocket server
-  port: port,                                                     // port number of the websocket server
+  port: '',                                                       // port number of the websocket server
   path: process.env.DB_PATH,                                      // HTTP path to websocket route
   secure: process.env.DB_SECURE,                                  // set true to use secure TLS websockets
   db: process.env.DB_NAME,                                        // default database, passed to rethinkdb.connect
   simulatedLatencyMs: 100, 
 }
-
+console.log(process.env.PORT);
+console.log(process.env.HEROKU_PORT);
 console.log(process.env.SERVER_PORT);
 console.log(options);
 

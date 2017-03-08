@@ -20,6 +20,7 @@ const options = {
   simulatedLatencyMs: 100, 
 }
 console.log(process.env.PORT);
+console.log(process.env.SERVER_PORT);
 console.log(options);
 
 const connPromise = RethinkdbWebsocketClient.connect(options);

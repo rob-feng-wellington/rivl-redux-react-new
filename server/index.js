@@ -43,8 +43,6 @@ fs.readFile('./cacert', function(err, caCert) {
     
     // Start the HTTP server on the configured port
     httpServer.listen(port);
-    console.log('environment port: ' + process.env.PORT);
-    console.log('environment heroku port: ' + process.env.HEROKU_PORT);
     console.log('Server started port: ' + port);
 });
 

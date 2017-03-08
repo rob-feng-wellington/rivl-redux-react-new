@@ -9,7 +9,7 @@ const tb_avatars_name = 'avatars';
 const tb_games_name = 'games';
 let query = '';
 
-let port = process.env.PORT || process.env.SERVER_PORT;
+let port = process.env.SERVER_PORT || 5000;
 
 const options = {
   host: process.env.DB_HOST,                                      // hostname of the websocket server
@@ -19,7 +19,7 @@ const options = {
   db: process.env.DB_NAME,                                        // default database, passed to rethinkdb.connect
   simulatedLatencyMs: 100, 
 }
-console.log(process.env.PORT);
+
 console.log(process.env.SERVER_PORT);
 console.log(options);
 

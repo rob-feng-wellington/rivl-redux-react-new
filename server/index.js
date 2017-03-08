@@ -25,7 +25,7 @@ res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 var httpServer = http.createServer(app);
-var port = process.env.PORT || 5000;
+var port = process.env.HEROKU_PORT || 5000;
 
 fs.readFile('./cacert', function(err, caCert) {
 
@@ -43,6 +43,8 @@ fs.readFile('./cacert', function(err, caCert) {
     
     // Start the HTTP server on the configured port
     httpServer.listen(port);
+    console.log('environment port: ' + process.env.PORT);
+    console.log('environment heroku port: ' + process.env.HEROKU_PORT);
     console.log('Server started port: ' + port);
 });
 

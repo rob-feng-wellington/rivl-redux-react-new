@@ -31,7 +31,7 @@ module.exports = {
         'DB_PATH': JSON.stringify('/'),
         'DB_SECURE': false,
         'DB_NAME': JSON.stringify('versus'),
-        'SERVER_PORT': 5000
+        'SERVER_PORT': 45546
       }
     })
   ],

@@ -8,7 +8,7 @@ module.exports = {
   target: 'web',
   entry: [
     'babel-polyfill',
-    './src/index.js'
+    './src/index'
   ],
   output: {
     path: __dirname + '/dist',

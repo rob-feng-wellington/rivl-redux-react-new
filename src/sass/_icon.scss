@@ -1,0 +1,135 @@
+@font-face {
+  font-family: 'social-icon';
+  src:  url('fonts/social-icon.eot?9xu7x5');
+  src:  url('fonts/social-icon.eot?9xu7x5#iefix') format('embedded-opentype'),
+    url('fonts/social-icon.ttf?9xu7x5') format('truetype'),
+    url('fonts/social-icon.woff?9xu7x5') format('woff'),
+    url('fonts/social-icon.svg?9xu7x5#social-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'social-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-material-ui .path1:before {
+  content: "\e900";
+  color: rgb(148, 148, 148);
+}
+.icon-material-ui .path2:before {
+  content: "\e901";
+  margin-left: -1em;
+  color: rgb(239, 239, 239);
+}
+.icon-material-ui .path3:before {
+  content: "\e902";
+  margin-left: -1em;
+  color: rgb(148, 148, 148);
+}
+.icon-material-ui .path4:before {
+  content: "\e903";
+  margin-left: -1em;
+  color: rgb(214, 214, 214);
+}
+.icon-material-ui .path5:before {
+  content: "\e904";
+  margin-left: -1em;
+  color: rgb(239, 239, 239);
+}
+.icon-material-ui .path6:before {
+  content: "\e905";
+  margin-left: -1em;
+  color: rgb(214, 214, 214);
+}
+.icon-material-ui .path7:before {
+  content: "\e906";
+  margin-left: -1em;
+  color: rgb(239, 239, 239);
+}
+.icon-material-ui .path8:before {
+  content: "\e907";
+  margin-left: -1em;
+  color: rgb(148, 148, 148);
+}
+.icon-material-ui .path9:before {
+  content: "\e908";
+  margin-left: -1em;
+  color: rgb(214, 214, 214);
+}
+.icon-material-ui .path10:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(148, 148, 148);
+}
+.icon-material-ui .path11:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(239, 239, 239);
+}
+.icon-material-ui .path12:before {
+  content: "\e90b";
+  margin-left: -1em;
+  color: rgb(214, 214, 214);
+}
+.icon-nodejs-icon:before {
+  content: "\e90c";
+}
+.icon-rethinkdb:before {
+  content: "\e90d";
+}
+.icon-webpack .path1:before {
+  content: "\e90e";
+  color: rgb(0, 0, 0);
+}
+.icon-webpack .path2:before {
+  content: "\e90f";
+  margin-left: -0.865234375em;
+  color: rgb(111, 149, 219);
+}
+.icon-webpack .path3:before {
+  content: "\e910";
+  margin-left: -0.865234375em;
+  color: rgb(255, 255, 255);
+  opacity: 0.1;
+}
+.icon-redux:before {
+  content: "\e911";
+}
+.icon-linkedin-icon:before {
+  content: "\e912";
+}
+.icon-github-icon-1:before {
+  content: "\e913";
+}
+.icon-react .path1:before {
+  content: "\e914";
+  color: rgb(255, 255, 255);
+}
+.icon-react .path2:before {
+  content: "\e915";
+  margin-left: -1em;
+  color: rgb(83, 193, 222);
+}
+.icon-react .path3:before {
+  content: "\e916";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-react .path4:before {
+  content: "\e917";
+  margin-left: -1em;
+  color: rgb(83, 193, 222);
+}
+

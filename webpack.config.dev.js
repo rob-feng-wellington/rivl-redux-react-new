@@ -2,9 +2,11 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  debug: true,
+  devtool: 'cheap-module-eval-source-map',
+  noInfo: false,
+  target: 'web',
   entry: [
-    'webpack-dev-server/client?http://localhost:8015',
-    'webpack/hot/only-dev-server',
     'babel-polyfill',
     './src/index.js'
   ],

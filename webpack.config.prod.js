@@ -26,10 +26,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'DB_HOST': JSON.stringify('aws-ap-southeast-1-portal.1.dblayer.com'),
+        'DB_HOST': JSON.stringify('localhost'),
         'DB_PORT': 15329,
         'DB_PATH': JSON.stringify('/'),
-        'DB_SECURE': true,
+        'DB_SECURE': false,
         'DB_NAME': JSON.stringify('versus'),
         'SERVER_PORT': 5000
       }

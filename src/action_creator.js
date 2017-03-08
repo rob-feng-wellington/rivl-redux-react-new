@@ -27,6 +27,7 @@ export const fetchPlayers = (filter) => (dispatch, getState) => {
       });
     },
     error => {
+      console.log(error);
       dispatch({
         type: 'FETCH_PLAYERS_FAILURE',
         filter,

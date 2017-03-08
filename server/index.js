@@ -5,7 +5,6 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var open = require('open');
-var r = require('rethinkdb');
 var compression = require('compression');
 //import open from 'open';
 //import compression from 'compression';

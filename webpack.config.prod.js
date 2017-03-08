@@ -26,7 +26,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'DB_HOST': JSON.stringify('localhost'),
+        'DB_HOST': JSON.stringify('react-versus.herokuapp.com'),
         'DB_PORT': 15329,
         'DB_PATH': JSON.stringify('/'),
         'DB_SECURE': false,

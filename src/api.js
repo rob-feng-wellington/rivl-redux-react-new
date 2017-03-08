@@ -15,7 +15,7 @@ const options = {
   host: process.env.DB_HOST,                                      // hostname of the websocket server
   port: 8080,                                                       // port number of the websocket server
   path: process.env.DB_PATH,                                      // HTTP path to websocket route
-  secure: false,                                                   // set true to use secure TLS websockets
+  secure: true,                                                   // set true to use secure TLS websockets
   db: process.env.DB_NAME,                                        // default database, passed to rethinkdb.connect
   simulatedLatencyMs: 100, 
 }

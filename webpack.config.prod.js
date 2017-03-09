@@ -29,7 +29,7 @@ module.exports = {
         'DB_HOST': JSON.stringify('react-versus.herokuapp.com'),
         'DB_PORT': 15329,
         'DB_PATH': JSON.stringify('/'),
-        'DB_SECURE': false,
+        'DB_SECURE': true,
         'DB_NAME': JSON.stringify('versus'),
         'SERVER_PORT': 5000
       }

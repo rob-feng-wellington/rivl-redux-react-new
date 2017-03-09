@@ -83,22 +83,23 @@ class AddPlayerClass extends React.Component {
     player.gender = this.state.gender;
 
     if(this.state.previewUrl !== null || this.state.avatarId !== '') {
-      this.toDataUrl(this.state.previewUrl, (base64) => {
-        player.avartar_base64 = base64;
-        let action = actions.addPlayer(player);
-        dispatch(action);
-      });
-    } else if (this.state.avatarId !== '') {
-      const avatar = find(this.props.avatars, (avatar) => {
-        return avatar.id === this.state.avatarId
-      });
-      const avatarPath = window.location.origin + '/' + avatar.path;
-      
-      this.toDataUrl(avatarPath, (base64) => {
-        player.avartar_base64 = base64;
-        let action = actions.addPlayer(player);
-        dispatch(action);
-      });
+      if(this.state.previewUrl !== null) {
+        this.toDataUrl(this.state.previewUrl, (base64) => {
+            player.avartar_base64 = base64;
+            let action = actions.addPlayer(player);
+            dispatch(action);
+        });
+      } else if (this.state.avatarId !== '') {
+        const avatar = find(this.props.avatars, (avatar) => {
+            return avatar.id === this.state.avatarId
+        });
+        const avatarPath = window.location.origin + '/' + avatar.path;
+        this.toDataUrl(avatarPath, (base64) => {
+            player.avartar_base64 = base64;
+            let action = actions.addPlayer(player);
+            dispatch(action);
+        });
+      }
     } else {
       player.avartar_base64 = '';
       let action = actions.addPlayer(player);

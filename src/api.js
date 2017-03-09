@@ -13,13 +13,12 @@ let port = process.env.PORT || process.env.SERVER_PORT || 5000;
 
 const options = {
   host: process.env.DB_HOST,                                      // hostname of the websocket server
-  port: 8080,                                                       // port number of the websocket server
+  port: port,                                                     // port number of the websocket server
   path: process.env.DB_PATH,                                      // HTTP path to websocket route
-  secure: true,                                                   // set true to use secure TLS websockets
+  secure: process.env.DB_SECURE,                                  // set true to use secure TLS websockets
   db: process.env.DB_NAME,                                        // default database, passed to rethinkdb.connect
-  simulatedLatencyMs: 100, 
 }
-console.log(process.env.SERVER_PORT);
+
 console.log(options);
 
 const connPromise = RethinkdbWebsocketClient.connect(options);
@@ -60,7 +59,7 @@ export const fetchPlayers = (filter) => {
         throw new Error('Unknown filter: ${filter}');
   }
 
-  return run(query).catch((err) => err).then((cursor) => (
+  return run(query).catch((err) =>{ console.log(err); return err; }).then((cursor) => (
     cursor.toArray().then((results) => results)
   ));
 };
@@ -72,7 +71,7 @@ export const fetchPlayer = (id) => {
         {index: 'player_id'}).orderBy(r.desc('createdAt')).coerceTo('array')
     }
   });
-  return run(query).catch((err) => err).then((result) => result);
+  return run(query).catch((err) =>{ console.log(err); return err; }).then((result) => {console.log(result); return result;});
 }
 
 export const addPlayer = (playerObj) => {  
@@ -87,6 +86,7 @@ export const addPlayer = (playerObj) => {
   return run(query)
     .catch((err) => err)
     .then((result) => {
+      console.log(result);
       let key = result.generated_keys[0];
       query = r.table(tb_players_name).get(key);
       return run(query).catch((err) => err).then((results)=>results);

@@ -2,9 +2,8 @@ import React from 'react';
 
 const Footer = () => (
 	<div className="footer">
-		<div className="wrapper text-dark-background">
-			
-			{/*<p>
+		<div className="wrapper text-dark-background">			
+			<p>
 				EcoSystem: &nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="https://facebook.github.io/react/" target="_blank">
 					<span className='icon-react'>
@@ -66,7 +65,7 @@ const Footer = () => (
 					<span className='icon-linkedin-icon'>
 					</span>
 				</a>
-			</p>*/}
+			</p>
 		</div>
 	</div>
 );
